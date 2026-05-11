@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[    279922,       5580]
-NotebookOptionsPosition[    276682,       5511]
-NotebookOutlinePosition[    277577,       5539]
-CellTagsIndexPosition[    277534,       5536]
+NotebookDataLength[    278352,       5571]
+NotebookOptionsPosition[    274985,       5499]
+NotebookOutlinePosition[    275880,       5527]
+CellTagsIndexPosition[    275837,       5524]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -72,7 +72,8 @@ Cell[BoxData[
  RowBox[{
   RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}]], "Input",
  CellChangeTimes->{{3.9857647464875383`*^9, 3.985764753694293*^9}},
- CellLabel->"In[23]:=",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
+ CellLabel->
+  "In[141]:=",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
 
 Cell[BoxData[
  RowBox[{
@@ -90,7 +91,8 @@ Cell[BoxData[
    3.986442548946316*^9, 3.986442633732183*^9}, {3.986442845907782*^9, 
    3.986442852535853*^9}, 3.986461123915306*^9, 3.986546667271738*^9, {
    3.987145685762101*^9, 3.9871456881645727`*^9}},
- CellLabel->"In[24]:=",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
+ CellLabel->
+  "In[142]:=",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
 
 Cell[BoxData[
  RowBox[{
@@ -143,7 +145,8 @@ Cell[BoxData[
    3.9865354331292048`*^9, 3.9865354387657757`*^9}, {3.986546652864005*^9, 
    3.986546655315057*^9}, {3.987049214448668*^9, 3.987049217768237*^9}, {
    3.987145702115103*^9, 3.987145713829158*^9}, 3.987147574104307*^9},
- CellLabel->"In[25]:=",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
+ CellLabel->
+  "In[143]:=",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -195,8 +198,11 @@ Cell[BoxData[{
    3.98748115142972*^9, 3.987481154102634*^9}, 3.987490525304949*^9, 
    3.987490561074786*^9, {3.987491479867783*^9, 3.987491489177108*^9}, {
    3.987492101560164*^9, 3.9874921042341757`*^9}, {3.987494427758062*^9, 
-   3.987494432683113*^9}},
- CellLabel->"In[28]:=",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
+   3.987494432683113*^9}, {3.987496884729515*^9, 3.9874968877556877`*^9}, {
+   3.987497282207222*^9, 3.9874972857526407`*^9}, {3.9874976600340357`*^9, 
+   3.987497663667938*^9}, {3.987497814069681*^9, 3.987497816671234*^9}},
+ CellLabel->
+  "In[149]:=",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
 
 Cell[CellGroupData[{
 
@@ -214,8 +220,21 @@ Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{"ClearAll", " ", "@", " ", "cacheEoM"}], ";"}], 
+   RowBox[{"ClearAll", "[", 
+    RowBox[{"cacheEoM", ",", " ", "gaugeFix"}], "]"}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"gaugeFix", " ", "=", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"\[Omega]tx", "[", "1", "]"}], " ", "->", " ", "0"}], ",", " ", 
+      RowBox[{
+       RowBox[{"\[Omega]ty", "[", "1", "]"}], " ", "->", " ", "0"}], ",", " ", 
+      RowBox[{
+       RowBox[{"\[Omega]xy", "[", "1", "]"}], " ", "->", " ", "0"}]}], 
+     "}"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -249,8 +268,10 @@ Cell[BoxData[{
              RowBox[{"ListQ", "[", "EoM", "]"}], "&&", 
              RowBox[{
               RowBox[{"Length", " ", "@", " ", "EoM"}], "==", 
-              RowBox[{"3", "\[ScriptCapitalN]"}]}]}], ",", " ", 
-            "\[IndentingNewLine]", 
+              RowBox[{"3", 
+               RowBox[{"(", 
+                RowBox[{"\[ScriptCapitalN]", "-", "1"}], ")"}]}]}]}], ",", 
+            " ", "\[IndentingNewLine]", 
             RowBox[{
              RowBox[{"Print", "[", "\"\<EoM loaded\>\"", "]"}], ";", " ", 
              "\[IndentingNewLine]", 
@@ -282,15 +303,18 @@ Cell[BoxData[{
            RowBox[{
             RowBox[{
              RowBox[{"(", 
-              RowBox[{"A", "[", 
-               RowBox[{
-                RowBox[{"e", "[", "I", "]"}], ",", " ", 
-                RowBox[{"u", "[", "I", "]"}]}], "]"}], ")"}], "[", 
+              RowBox[{
+               RowBox[{"A", "[", 
+                RowBox[{
+                 RowBox[{"e", "[", "I", "]"}], ",", " ", 
+                 RowBox[{"u", "[", "I", "]"}]}], "]"}], "/.", "gaugeFix"}], 
+              ")"}], "[", 
              RowBox[{"[", 
               RowBox[{"Sequence", "@@", "idx"}], "]"}], "]"}], "//", 
             "Simplify"}], ",", "\[IndentingNewLine]", 
            RowBox[{"{", 
-            RowBox[{"I", ",", "\[ScriptCapitalN]"}], "}"}], ",", " ", 
+            RowBox[{"I", ",", "2", ",", "\[ScriptCapitalN]"}], "}"}], ",", 
+           " ", 
            RowBox[{"{", 
             RowBox[{"idx", ",", 
              RowBox[{"Subsets", "[", 
@@ -398,14 +422,29 @@ Cell[BoxData[{
    3.987490331005713*^9, 3.987490357526824*^9}, {3.987490583555715*^9, 
    3.987490593321102*^9}, {3.9874911368505983`*^9, 3.9874911650159388`*^9}, 
    3.987491681028017*^9, {3.987494349206377*^9, 3.987494357605205*^9}, {
-   3.9874944592759*^9, 3.987494459516131*^9}},
- CellLabel->"In[30]:=",ExpressionUUID->"1810d050-3666-49c7-ad60-7b5cd9c9ad82"],
+   3.9874944592759*^9, 3.987494459516131*^9}, {3.98749757926335*^9, 
+   3.987497617750413*^9}, 3.9874976519581747`*^9},
+ CellLabel->
+  "In[151]:=",ExpressionUUID->"1810d050-3666-49c7-ad60-7b5cd9c9ad82"],
 
-Cell[BoxData["\<\"EoM loaded\"\>"], "Print",
- CellChangeTimes->{3.987494480501795*^9},
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"EoM not found - recalculating...\"\>"], "Print",
+ CellChangeTimes->{3.987497819440322*^9},
  CellLabel->
   "During evaluation of \
-In[30]:=",ExpressionUUID->"872513e1-d14b-46b7-aed9-0955cf08dd58"]
+In[151]:=",ExpressionUUID->"119e744f-e1c9-4c9e-be03-96357233cb3e"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"6", "\[InvisibleSpace]", "\<\" EoM successfully calculated\"\>"}],
+  SequenceForm[6, " EoM successfully calculated"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9874978205653553`*^9},
+ CellLabel->
+  "During evaluation of \
+In[151]:=",ExpressionUUID->"51aac3df-e55c-48ed-b126-fcc3c83d12cd"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]],
 
@@ -454,8 +493,9 @@ Cell[BoxData[{
                RowBox[{"\[Omega]xy", "[", "i", "]"}], ",", "0"}], "}"}]}], 
             "\[IndentingNewLine]", "}"}], ",", 
            RowBox[{"{", 
-            RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}], ",", 
-         "1"}], "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"i", ",", "2", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}],
+          ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
       RowBox[{"eqs", "=", "EoM"}], ";", "\[IndentingNewLine]", 
       "\[IndentingNewLine]", 
       RowBox[{"sol", "=", 
@@ -465,8 +505,11 @@ Cell[BoxData[{
           RowBox[{"eqs", "\[Equal]", "0"}], "]"}], ",", "\[IndentingNewLine]",
           "omegas", ",", "\[IndentingNewLine]", 
          RowBox[{"AccuracyGoal", "\[Rule]", "accuracy"}]}], 
-        "\[IndentingNewLine]", "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
-  ";"}]}], "Input",
+        "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Join", "[", 
+       RowBox[{"gaugeFix", ",", "sol"}], "]"}]}]}], "\[IndentingNewLine]", 
+    "]"}]}], ";"}]}], "Input",
  CellChangeTimes->{{3.986618419082858*^9, 3.986618455339416*^9}, {
    3.986638662129107*^9, 3.986638668836372*^9}, {3.986966574227738*^9, 
    3.986966576686981*^9}, {3.986967717443614*^9, 3.986967726684317*^9}, {
@@ -478,8 +521,10 @@ Cell[BoxData[{
    3.9874830199400797`*^9}, {3.987483052749693*^9, 3.987483072522588*^9}, {
    3.987490404260614*^9, 3.987490426348713*^9}, {3.987490599723798*^9, 
    3.9874905999934797`*^9}, {3.987490637694278*^9, 3.987490648330946*^9}, {
-   3.987491119838408*^9, 3.987491120467812*^9}, 3.9874943378528852`*^9},
- CellLabel->"In[33]:=",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
+   3.987491119838408*^9, 3.987491120467812*^9}, 3.9874943378528852`*^9, {
+   3.9874976903606043`*^9, 3.987497697874702*^9}},
+ CellLabel->
+  "In[155]:=",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
 }, Open  ]]
 }, Open  ]],
 
@@ -684,7 +729,8 @@ Cell[BoxData[{
    3.9874903855925694`*^9}, {3.987490662560227*^9, 3.987490664365034*^9}, 
    3.987491110562776*^9, {3.987491777908947*^9, 3.987491796767576*^9}, 
    3.987494305851131*^9},
- CellLabel->"In[35]:=",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
+ CellLabel->
+  "In[157]:=",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -709,8 +755,8 @@ Cell[BoxData[{
        RowBox[{
        "\[Nu]x", ",", "\[Nu]y", ",", "\[CapitalNu]", ",", "\[Beta]", ",", 
         "exx", ",", "eyy", ",", "exy", ",", "pair", ",", "zoom", ",", 
-        "tSlice"}], "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-      
+        "tSlice", ",", " ", "sol", ",", " ", "check", ",", " ", "residuals"}],
+        "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
       RowBox[{"Do", "[", "\[IndentingNewLine]", 
        RowBox[{
         RowBox[{
@@ -765,8 +811,9 @@ Cell[BoxData[{
    3.987146061363577*^9}, {3.987480198181395*^9, 3.987480285808573*^9}, {
    3.987481605973673*^9, 3.9874816159693737`*^9}, 3.987481879812936*^9, {
    3.987483102205428*^9, 3.987483110709186*^9}, {3.987490660493861*^9, 
-   3.9874906694164677`*^9}},
- CellLabel->"In[38]:=",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
+   3.9874906694164677`*^9}, {3.9874972293098907`*^9, 3.987497234550715*^9}},
+ CellLabel->
+  "In[160]:=",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -783,7 +830,9 @@ Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{"ClearAll", "@", "sol"}], ";"}], "\n"}], "\[IndentingNewLine]", 
+   RowBox[{"ClearAll", "[", 
+    RowBox[{"sol", ",", " ", "check", ",", " ", "residuals"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\n", 
  RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
   RowBox[{
    RowBox[{"Block", "[", 
@@ -1161,9 +1210,16 @@ Cell[BoxData[{
             RowBox[{
              RowBox[{"{", "}"}], ",", 
              RowBox[{
-              RowBox[{"resetParams", "[", "]"}], ";", " ", 
-              RowBox[{"vielbeinInit", "[", "]"}], ";", " ", 
-              RowBox[{"cacheEoM", "[", "]"}], ";"}]}], "]"}]}]}], 
+              RowBox[{
+               RowBox[{"resetParams", "[", "]"}], ";"}], 
+              RowBox[{"(*", " ", 
+               RowBox[{
+                RowBox[{"ClearAll", "@", "EoM"}], ";"}], " ", "*)"}], 
+              RowBox[{"(*", 
+               RowBox[{
+                RowBox[{"vielbeinInit", "[", "]"}], ";"}], "*)"}], " ", 
+              RowBox[{"(*", 
+               RowBox[{"cacheEoM", "[", "]"}], "*)"}], ";"}]}], "]"}]}]}], 
          "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
         RowBox[{"ImageSize", "->", "Medium"}]}], "\[IndentingNewLine]", 
        "]"}]}], "\[IndentingNewLine]", "}"}], "]"}], ",", 
@@ -1339,8 +1395,11 @@ Cell[BoxData[{
    3.987491857923472*^9}, {3.987491943141096*^9, 3.98749197710126*^9}, {
    3.9874921910724497`*^9, 3.9874922003075933`*^9}, {3.987492327300156*^9, 
    3.987492338415362*^9}, {3.987494315086635*^9, 3.987494317845854*^9}, 
-   3.9874944705292377`*^9},
- CellLabel->"In[41]:=",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
+   3.9874944705292377`*^9, {3.987496822353657*^9, 3.987496859184011*^9}, {
+   3.987496919365834*^9, 3.987496924029385*^9}, {3.987497246598098*^9, 
+   3.987497272321014*^9}},
+ CellLabel->
+  "In[163]:=",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
 
 Cell[BoxData[
  TagBox[
@@ -1370,9 +1429,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1387,9 +1444,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
@@ -1405,9 +1460,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1422,9 +1475,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
@@ -1440,9 +1491,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1457,9 +1506,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}]}, {
           Row[{
@@ -1475,9 +1522,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1492,9 +1537,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
@@ -1510,9 +1553,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1527,9 +1568,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
@@ -1545,9 +1584,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1562,9 +1599,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}]}, {
           Row[{
@@ -1580,9 +1615,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1597,9 +1630,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
@@ -1615,9 +1646,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1632,9 +1661,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
@@ -1650,9 +1677,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1667,9 +1692,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}]}}, Alignment -> Left, 
         Spacings -> {0.5, 1}]], Manipulate`Dump`ThisIsNotAControl, 
@@ -1895,7 +1918,8 @@ Cell[BoxData[
            
            Charting`barValueToPoint[$CellContext`tSlice, {
             Identity, Identity}, {-3, 3}, {{0, 0}, {1, 0}}, 0], {
-           None, (System`GaugesDump`height = 
+           None, (
+            System`GaugesDump`height = 
              Charting`barPointtoValue[#, {Identity, Identity}, {-3, 3}, {{0, 
                0}, {1, 0}}, 0]; $CellContext`tSlice = (
               Part[{None, ($CellContext`tSlice = #)& , None}, 2][
@@ -2104,9 +2128,9 @@ Cell[BoxData[
               $CellContext`verify[$CellContext`sol, $CellContext`residuals, \
 $CellContext`check, 
                Normal[$CellContext`objMap]]]], Style["Reset", 10] :> 
-           Module[{}, $CellContext`resetParams[]; $CellContext`vielbeinInit[]; \
-$CellContext`cacheEoM[]; Null]}, ImageSize -> Medium]}]], 
-      Manipulate`Dump`ThisIsNotAControl, ControlType -> None}, {
+           Module[{}, ($CellContext`resetParams[]; Null); Null]}, ImageSize -> 
+          Medium]}]], Manipulate`Dump`ThisIsNotAControl, ControlType -> 
+      None}, {
       Hold[
        Column[{
          Labeled[
@@ -3474,9 +3498,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3493,9 +3515,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
@@ -3513,9 +3533,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3532,9 +3550,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
@@ -3552,9 +3568,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3571,9 +3585,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}]}, {
            Row[{
@@ -3591,9 +3603,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3610,9 +3620,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
@@ -3630,9 +3638,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3649,9 +3655,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
@@ -3669,9 +3673,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3688,9 +3690,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}]}, {
            Row[{
@@ -3708,9 +3708,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3727,9 +3725,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
@@ -3747,9 +3743,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3766,9 +3760,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
@@ -3786,9 +3778,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3805,9 +3795,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}]}}, Alignment -> Left, 
          Spacings -> {0.5, 1}], 
@@ -4246,8 +4234,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                $CellContext`verify[$CellContext`sol, $CellContext`residuals, \
 $CellContext`check, 
                 Normal[$CellContext`objMap]]]], Style["Reset", 10] :> 
-            Module[{}, $CellContext`resetParams[]; \
-$CellContext`vielbeinInit[]; $CellContext`cacheEoM[]; Null]}, ImageSize -> 
+            Module[{}, ($CellContext`resetParams[]; Null); Null]}, ImageSize -> 
            Medium]}], Delimiter, 
         Column[{
           Labeled[
@@ -5502,8 +5489,9 @@ $CellContext`iFrame$$}, Paneled -> False, ControlPlacement -> Right},
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.987494482732465*^9},
- CellLabel->"Out[42]=",ExpressionUUID->"e21e9e78-a1fb-4b97-913f-d8d00063f8e9"]
+ CellChangeTimes->{3.987497831199484*^9},
+ CellLabel->
+  "Out[164]=",ExpressionUUID->"960e6da0-b90e-4a69-a28f-66cb1aa710bb"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -5544,40 +5532,43 @@ Cell[841, 28, 1094, 23, 152, "Text",ExpressionUUID->"f6b4afff-2699-405d-991c-99f
 Cell[CellGroupData[{
 Cell[1960, 55, 152, 3, 82, "Section",ExpressionUUID->"f45cb5d4-315f-4ab3-9bb4-8d4c922008db"],
 Cell[2115, 60, 417, 8, 36, "Input",ExpressionUUID->"ff0c9937-29cb-4729-8608-12b722183b87"],
-Cell[2535, 70, 241, 4, 36, "Input",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
-Cell[2779, 76, 822, 16, 62, "Input",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
-Cell[3604, 94, 2774, 51, 240, "Input",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
+Cell[2535, 70, 245, 5, 36, "Input",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
+Cell[2783, 77, 826, 17, 62, "Input",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
+Cell[3612, 96, 2778, 52, 240, "Input",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6415, 150, 191, 3, 82, "Section",ExpressionUUID->"c2d2167e-7304-43dd-91d9-e126352a8dae"],
-Cell[6609, 155, 2245, 43, 215, "Input",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
+Cell[6427, 153, 191, 3, 82, "Section",ExpressionUUID->"c2d2167e-7304-43dd-91d9-e126352a8dae"],
+Cell[6621, 158, 2447, 46, 215, "Input",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
 Cell[CellGroupData[{
-Cell[8879, 202, 451, 7, 66, "Subsection",ExpressionUUID->"a9cc6144-e534-43bc-84f4-7261b076d482"],
+Cell[9093, 208, 451, 7, 66, "Subsection",ExpressionUUID->"a9cc6144-e534-43bc-84f4-7261b076d482"],
 Cell[CellGroupData[{
-Cell[9355, 213, 10486, 188, 879, "Input",ExpressionUUID->"1810d050-3666-49c7-ad60-7b5cd9c9ad82"],
-Cell[19844, 403, 191, 4, 28, "Print",ExpressionUUID->"872513e1-d14b-46b7-aed9-0955cf08dd58"]
+Cell[9569, 219, 11191, 208, 930, "Input",ExpressionUUID->"1810d050-3666-49c7-ad60-7b5cd9c9ad82"],
+Cell[CellGroupData[{
+Cell[20785, 431, 214, 4, 28, "Print",ExpressionUUID->"119e744f-e1c9-4c9e-be03-96357233cb3e"],
+Cell[21002, 437, 342, 8, 28, "Print",ExpressionUUID->"51aac3df-e55c-48ed-b126-fcc3c83d12cd"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[20084, 413, 162, 3, 66, "Subsection",ExpressionUUID->"44ed6b69-4b03-482a-b933-50dc229d04b6"],
-Cell[20249, 418, 2834, 63, 419, "Input",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
+Cell[21405, 452, 162, 3, 66, "Subsection",ExpressionUUID->"44ed6b69-4b03-482a-b933-50dc229d04b6"],
+Cell[21570, 457, 3044, 69, 470, "Input",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[23132, 487, 218, 4, 82, "Section",ExpressionUUID->"bbf6912f-3007-4f90-85a2-4a9994132a55"],
+Cell[24663, 532, 218, 4, 82, "Section",ExpressionUUID->"bbf6912f-3007-4f90-85a2-4a9994132a55"],
 Cell[CellGroupData[{
-Cell[23375, 495, 162, 3, 66, "Subsection",ExpressionUUID->"1c6f78d1-b1ad-4a0f-97bd-24b349e8bade"],
-Cell[23540, 500, 9127, 186, 881, "Input",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
+Cell[24906, 540, 162, 3, 66, "Subsection",ExpressionUUID->"1c6f78d1-b1ad-4a0f-97bd-24b349e8bade"],
+Cell[25071, 545, 9131, 187, 881, "Input",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[32704, 691, 320, 5, 66, "Subsection",ExpressionUUID->"f6b7ed4c-853f-46dc-879f-98c6a6a122b5"],
-Cell[33027, 698, 3330, 70, 445, "Input",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
+Cell[34239, 737, 320, 5, 66, "Subsection",ExpressionUUID->"f6b7ed4c-853f-46dc-879f-98c6a6a122b5"],
+Cell[34562, 744, 3442, 71, 445, "Input",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[36394, 773, 333, 5, 66, "Subsection",ExpressionUUID->"db433adc-8c0c-4830-8d84-defba1f5eb26"],
+Cell[38041, 820, 333, 5, 66, "Subsection",ExpressionUUID->"db433adc-8c0c-4830-8d84-defba1f5eb26"],
 Cell[CellGroupData[{
-Cell[36752, 782, 28252, 560, 2984, "Input",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
-Cell[65007, 1344, 211623, 4161, 960, "Output",ExpressionUUID->"e21e9e78-a1fb-4b97-913f-d8d00063f8e9"]
+Cell[38399, 829, 28720, 572, 2984, "Input",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
+Cell[67122, 1403, 207811, 4090, 976, "Output",ExpressionUUID->"960e6da0-b90e-4a69-a28f-66cb1aa710bb"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

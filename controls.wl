@@ -40,7 +40,7 @@ formRows[i_] := Module[{defaults},
 	defaults = pairDefault[i];
 	If[!MatchQ[pair[i], {_String, _String}], pair[i] = defaults];
 	Row[{
-		Style[" " <> ToString[i] <> " ", Bold, 8],
+		Style[" " <> ToString @ i <> " ", Bold, 8],
 		
 		PopupMenu[
 			Dynamic[
@@ -67,7 +67,7 @@ formRows[i_] := Module[{defaults},
 			ContentPadding -> False,
 			ImageSize -> {20, 18}
 		]
-	}
+	}]
 ];
 
 formGrid[] := Grid[
