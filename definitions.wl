@@ -2,13 +2,13 @@
 
 (* ------ Setup ------ *)
 ClearAll[
-	\[ScriptCapitalN], dim, \[Eta],
+	\[ScriptCapitalN], dim, \[Eta], \[DoubleStruckCapitalI],
 	\[Omega], \[CapitalLambda], \[Omega]tx, \[Omega]ty, \[Omega]xy,
 	e, \[CapitalNu], \[Beta], \[Nu]x, \[Nu]y,
 	exx, eyy, exy,
 	uf, u, g, hf, h,
-	A, nc$, mainVielInit, 
-	meanVielInit, vielbeinInit
+	A, nc$, 
+	mainVielInit, vielbeinInit
 ];
 
 (* ------ Basic objects ------ *)
@@ -20,6 +20,8 @@ dim = 3; (* Spacetime dimensions *)
 	{0, 1, 0},
 	{0, 0, 1}
 });
+
+\[DoubleStruckCapitalI] = IdentityMatrix[dim];
 
 (* ------ Assumptions ------ *)
 $Assumptions = And @@ Join[
@@ -57,18 +59,19 @@ mainVielInit[] := Block[{},
 ];
 
 (* Arithmetic mean and reduced form *)
-meanVielInit[] := Block[{},
+(*meanVielInit[] := Block[{},
 	Quiet @ Clear[u];
 	Do[
 		u[J] = uf - e[J] // Simplify,
 	{J, \[ScriptCapitalN]}]
-];
+];*)
 
-vielbeinInit[]:=Block[{},
+vielbeinInit[] := Block[{},
 	Quiet @ ClearAll[e, uf, u];
 	mainVielInit[]; 
 	uf := Sum[e[I], {I, 1, \[ScriptCapitalN]}];
-	meanVielInit[];
+	(*meanVielInit[];*)
+	u[I_] := Total[e /@ DeleteCases[Range[\[ScriptCapitalN]], I]];
 ];
 vielbeinInit[]
 

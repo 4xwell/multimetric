@@ -1,30 +1,29 @@
 (* ::Package:: *)
 
 ClearAll[
-	nForms, nFormCols, formsPerCol,
+	nForms, nFormRows, nFormCols, formGrid,
 	defaultPairs, pairDefault, defaultShifts,
 	vielLabel, vielChoices, formRows,
-	target, shiftOverlay,
-	triadControls, gaugeControls	
+	target, shiftOverlay, triadControls, 
+	gaugeControls, overlapControl,
+	zoomControl, tSliceControl
 ];
 
 nForms = 9;
-nFormCols = 3;
-formsPerCol = Ceiling@nForms/nFormCols;
+nFormRows = 3;
+nFormCols = Ceiling[nForms/nFormRows];
 
 vielLabel := Association@Join[
 	{"None" -> Style["-", 10]},
-	Table["e" <> ToString@i -> Style[Subscript["e", i], 10], {i, \[ScriptCapitalN]}],
+	Table["e" <> ToString @ i -> Style[Subscript["e", i], 10], {i, \[ScriptCapitalN]}],
 	{"u" -> Style["u", 10]},
-	Table["u" <> ToString@i -> Style[Subscript["u", i], 10], {i, \[ScriptCapitalN]}]
+	Table["u" <> ToString @ i -> Style[Subscript["u", i], 10], {i, \[ScriptCapitalN]}]
 ];
 
 vielChoices := Normal[vielLabel];
 
 defaultPairs = Association @ Append[
-	Table[
-		{i -> {"e"<>ToString @ i, "e"<>ToString @ i}}
-		,{i,\[ScriptCapitalN]}],
+	Table[{i -> {"e"<>ToString @ i, "e"<>ToString @ i}},{i,\[ScriptCapitalN]}],
 	{\[ScriptCapitalN]+1 -> {"u", "u"}}
 ];
 
@@ -68,7 +67,14 @@ formRows[i_] := Module[{defaults},
 			ContentPadding -> False,
 			ImageSize -> {20, 18}
 		]
-	}]
+	}
+];
+
+formGrid[] := Grid[
+	Partition[ (*Bilinear form selection grid*)
+		Table[formRows[i],{i,nForms}],
+		nFormCols
+	], Alignment -> Left, Spacings -> {0.5, 1}
 ];
 
 target[i_] := Graphics[{
@@ -86,17 +92,6 @@ shiftOverlay[i_] := Locator[
 	target[i]
 ];
 
-(*shiftControls[i_] := Column[{
-	Slider[{
-		{Dynamic@\[Nu]x[i], defaultShifts[[i, 1]], Superscript["\!\(\*SubscriptBox[\(\[Nu]\), \(x\)]\)",ToString@i]},
-		-2, 2
-	}],
-	Control[{
-		{\[Nu]y[i], defaultShifts[[i, 2]], Superscript["\!\(\*SubscriptBox[\(\[Nu]\), \(y\)]\)",ToString@i]},
-		-2, 2, Slider
-	}]
-}];*)
-
 gaugeControls[sym_, i_, lo_, hi_] := Labeled[
 	HorizontalGauge[
 		Dynamic[sym[i]],
@@ -108,8 +103,34 @@ gaugeControls[sym_, i_, lo_, hi_] := Labeled[
 		ImageMargins -> 0,
 		ScalePadding -> 0
 	],
-	Subscript[ToString@sym, i], Left
+	Subscript[ToString @ sym, i], Left
 ];
+
+overlapControl[] := Labeled[Control[{ (*Overlap toggler bar*)
+	{modes,{},""},
+	Thread[Range[nForms] -> Range[nForms]],
+	ControlType -> TogglerBar,
+	Appearance -> (*"Row"*)"Horizontal",
+	Enabled -> Dynamic[plotDim==="2D"],
+	Background -> colors
+	}], "Overlap", Top,{}
+];
+
+zoomControl[] := Labeled[HorizontalGauge[ (*Zoom slider*)
+	Dynamic @ zoom,{0.5, 3},
+	PlotTheme -> "Monochrome",
+	GaugeMarkers -> Placed["BarMarker", "Center"],
+	Frame -> False, ScalePadding -> 0,
+	ImageSize -> 165, ImageMargins -> 0
+], "Zoom", Left];
+
+tSliceControl[] := Labeled[HorizontalGauge[ (*t-slice slider*)
+	Dynamic @ tSlice,{-3, 3},
+	PlotTheme -> "Monochrome",
+	GaugeMarkers -> Placed["BarMarker", "Center"],
+	Frame -> False, ScalePadding -> 0,
+	ImageSize -> 160, ImageMargins -> 0
+], "t-slice", Left];
 
 triadControls[i_] := Labeled[
 	(* NOTE: reversed min/max for more intuitive controls *)
