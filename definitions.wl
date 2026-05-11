@@ -8,7 +8,7 @@ ClearAll[
 	exx, eyy, exy,
 	uf, u, g, hf, h,
 	A, nc$, 
-	mainVielInit, vielbeinInit
+	mainVielInit,meanVielInit,vielbeinInit
 ];
 
 (* ------ Basic objects ------ *)
@@ -59,17 +59,18 @@ mainVielInit[] := Block[{},
 ];
 
 (* Arithmetic mean and reduced form *)
-(*meanVielInit[] := Block[{},
+meanVielInit[] := Block[{},
 	Quiet @ Clear[u];
 	Do[
 		u[J] = uf - e[J] // Simplify,
 	{J, \[ScriptCapitalN]}]
-];*)
+];
 
 vielbeinInit[] := Block[{},
 	Quiet @ ClearAll[e, uf, u];
 	mainVielInit[]; 
 	uf := Sum[e[I], {I, 1, \[ScriptCapitalN]}];
+	(*u[I_] := uf - e[I] // Simplify;*)
 	(*meanVielInit[];*)
 	u[I_] := Total[e /@ DeleteCases[Range[\[ScriptCapitalN]], I]];
 ];

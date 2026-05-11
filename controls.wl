@@ -1,53 +1,43 @@
 (* ::Package:: *)
 
 ClearAll[
-	nForms, nFormRows, nFormCols, formGrid,
+	nForms, nFormRows, nFormCols,
 	defaultPairs, pairDefault, defaultShifts,
-	vielLabel, vielChoices, formRows,
+	vielLabel, formRows, formGrid,
 	target, shiftOverlay, triadControls, 
 	gaugeControls, overlapControl,
 	zoomControl, tSliceControl
 ];
 
-nForms = 9;
-nFormRows = 3;
-nFormCols = Ceiling[nForms/nFormRows];
+nForms = 9; nFormRows = 3; nFormCols = Ceiling[nForms/nFormRows];
 
-vielLabel := Association@Join[
+vielLabel := Association @ Join[
 	{"None" -> Style["-", 10]},
 	Table["e" <> ToString @ i -> Style[Subscript["e", i], 10], {i, \[ScriptCapitalN]}],
 	{"u" -> Style["u", 10]},
 	Table["u" <> ToString @ i -> Style[Subscript["u", i], 10], {i, \[ScriptCapitalN]}]
 ];
 
-vielChoices := Normal[vielLabel];
-
-defaultPairs = Association @ Append[
-	Table[{i -> {"e"<>ToString @ i, "e"<>ToString @ i}},{i,\[ScriptCapitalN]}],
+defaultPairs := Association @ Append[
+	Table[{i -> {"e" <> ToString @ i, "e" <> ToString @ i}}, {i, \[ScriptCapitalN]}],
 	{\[ScriptCapitalN]+1 -> {"u", "u"}}
 ];
-
 pairDefault[i_] := Lookup[defaultPairs, i, {"None", "None"}];
 
-defaultShifts = {
-	{Cos[0], Sin[0]},
-	{Cos[2\[Pi]/3], Sin[2\[Pi]/3]},
-	{Cos[4\[Pi]/3], Sin[4\[Pi]/3]},
-	{Cos[\[Pi]], Sin[0]}
-};
+defaultShifts := Table[{Cos[(i-1) 2\[Pi]/\[ScriptCapitalN]], Sin[(i-1) 2\[Pi]/\[ScriptCapitalN]]}, {i, \[ScriptCapitalN]}];
 
 formRows[i_] := Module[{defaults},
 	defaults = pairDefault[i];
 	If[!MatchQ[pair[i], {_String, _String}], pair[i] = defaults];
 	Row[{
-		Style[" " <> ToString @ i <> " ", Bold, 8],
+		Style[ToString @ i <> " ", Bold, 8],
 		
 		PopupMenu[
 			Dynamic[
 				pair[i][[1]],
 				(pair[i] = ReplacePart[pair[i], 1 -> #]) &
 			],
-			vielChoices,
+			Normal @ vielLabel,
 			Alignment -> {Center, Bottom},
 			Appearance -> "Button",
 			ContentPadding -> False,
@@ -61,7 +51,7 @@ formRows[i_] := Module[{defaults},
 				pair[i][[2]],
 				(pair[i] = ReplacePart[pair[i], 2 -> #]) &
 			],
-			vielChoices,
+			Normal @ vielLabel,
 			Alignment -> {Center, Bottom},
 			Appearance -> "Button",
 			ContentPadding -> False,
@@ -72,15 +62,15 @@ formRows[i_] := Module[{defaults},
 
 formGrid[] := Grid[
 	Partition[ (*Bilinear form selection grid*)
-		Table[formRows[i],{i,nForms}],
+		Table[formRows[i], {i, nForms}],
 		nFormCols
 	], Alignment -> Left, Spacings -> {0.5, 1}
 ];
 
 target[i_] := Graphics[{
-	Directive[colors[[i]],Opacity[0.6]], 
-	Disk[{0,0},Scaled[.06]],
-	Directive[White,Opacity[1]], 
+	Directive[colors[[i]], Opacity[0.6]], 
+	Disk[{0,0}, Scaled[.06]],
+	Directive[White, Opacity[1]], 
 	Text[Style[Subsuperscript["\[Nu]", "xy", ToString @ i], Bold, 8]]
 }];
 
@@ -107,13 +97,13 @@ gaugeControls[sym_, i_, lo_, hi_] := Labeled[
 ];
 
 overlapControl[] := Labeled[Control[{ (*Overlap toggler bar*)
-	{modes,{},""},
+	{modes, {}, ""},
 	Thread[Range[nForms] -> Range[nForms]],
 	ControlType -> TogglerBar,
-	Appearance -> (*"Row"*)"Horizontal",
+	Appearance -> "Horizontal",
 	Enabled -> Dynamic[plotDim==="2D"],
 	Background -> colors
-	}], "Overlap", Top,{}
+	}], "Overlap", Top, {}
 ];
 
 zoomControl[] := Labeled[HorizontalGauge[ (*Zoom slider*)

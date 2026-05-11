@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[    277837,       5568]
-NotebookOptionsPosition[    274344,       5493]
-NotebookOutlinePosition[    275240,       5521]
-CellTagsIndexPosition[    275197,       5518]
+NotebookDataLength[    280275,       5579]
+NotebookOptionsPosition[    277162,       5513]
+NotebookOutlinePosition[    278057,       5541]
+CellTagsIndexPosition[    278014,       5538]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -28,8 +28,8 @@ Cell["Null cone interactions", "Title",
 
 Cell[TextData[{
  "Simulation of multimetric null cone interactions in 2D and 3D. \nThe code \
-is inspired by work from Mikica Kocic and Joakim Flinckman 2020.\n\nSet \
-\[ScriptCapitalN] in ",
+is inspired by and uses techniques sourced from similar work by Mikica Kocic \
+(2020) and Joakim Flinckman (2020?).\n\nSet \[ScriptCapitalN] in ",
  StyleBox["definitions.wl",
   FontFamily->"Courier New"],
  " to change the number of vielbeins/metrics.\nRemember to reset and \
@@ -47,7 +47,8 @@ recalculate EoM (",
   3.987148345530658*^9, 3.987148431534102*^9}, {3.9871486987009077`*^9, 
   3.9871488595195007`*^9}, {3.987149491213148*^9, 3.9871495067916117`*^9}, {
   3.987150328994933*^9, 3.9871503680398006`*^9}, {3.9874751936631317`*^9, 
-  3.987475221733412*^9}},ExpressionUUID->"f6b4afff-2699-405d-991c-\
+  3.987475221733412*^9}, {3.9874943718341227`*^9, 
+  3.987494410513023*^9}},ExpressionUUID->"f6b4afff-2699-405d-991c-\
 99f1b8eda326"],
 
 Cell[CellGroupData[{
@@ -63,14 +64,15 @@ Cell[BoxData[
    RowBox[{"Quit", "[", "]"}], ";"}], "*)"}]], "Input",
  CellChangeTimes->{{3.9865544466181*^9, 3.986554448235688*^9}, 
    3.987145693264021*^9, {3.987146776478002*^9, 3.9871468048121777`*^9}, {
-   3.987480948509042*^9, 3.9874809510244713`*^9}},
- CellLabel->"In[51]:=",ExpressionUUID->"ff0c9937-29cb-4729-8608-12b722183b87"],
+   3.987480948509042*^9, 3.9874809510244713`*^9}, {3.987490529493669*^9, 
+   3.9874905466772223`*^9}, {3.9875084426331863`*^9, 3.987508446120891*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"ff0c9937-29cb-4729-8608-12b722183b87"],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}]], "Input",
  CellChangeTimes->{{3.9857647464875383`*^9, 3.985764753694293*^9}},
- CellLabel->"In[52]:=",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
+ CellLabel->"In[2]:=",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
 
 Cell[BoxData[
  RowBox[{
@@ -88,7 +90,7 @@ Cell[BoxData[
    3.986442548946316*^9, 3.986442633732183*^9}, {3.986442845907782*^9, 
    3.986442852535853*^9}, 3.986461123915306*^9, 3.986546667271738*^9, {
    3.987145685762101*^9, 3.9871456881645727`*^9}},
- CellLabel->"In[53]:=",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
+ CellLabel->"In[3]:=",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
 
 Cell[BoxData[
  RowBox[{
@@ -140,8 +142,10 @@ Cell[BoxData[
    3.986443006357836*^9}, 3.986443150847157*^9, 3.986461131066743*^9, {
    3.9865354331292048`*^9, 3.9865354387657757`*^9}, {3.986546652864005*^9, 
    3.986546655315057*^9}, {3.987049214448668*^9, 3.987049217768237*^9}, {
-   3.987145702115103*^9, 3.987145713829158*^9}, 3.987147574104307*^9},
- CellLabel->"In[54]:=",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
+   3.987145702115103*^9, 3.987145713829158*^9}, 3.987147574104307*^9, {
+   3.987508652293335*^9, 
+   3.9875086646457863`*^9}},ExpressionUUID->"7b8dd2f1-0c26-4809-baed-\
+0f2103a382f1"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -151,11 +155,8 @@ Cell["Equations of motion", "Section",
    3.985860824446537*^9},ExpressionUUID->"c2d2167e-7304-43dd-91d9-\
 e126352a8dae"],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
- RowBox[{
-  RowBox[{"ClearAll", "@", "resetEoM"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"ClearAll", " ", "@", " ", "resetEoM"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"resetEoM", "[", "]"}], ":=", 
@@ -165,11 +166,11 @@ Cell[BoxData[{
       RowBox[{"Quiet", " ", "@", " ", 
        RowBox[{"DeleteFile", "[", 
         RowBox[{
-         RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<EoM.wl\>\""}], 
-        "]"}]}], ";"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<EoM-N\>\"", "<>", 
+         RowBox[{"ToString", " ", "@", " ", "\[ScriptCapitalN]"}], 
+         "<>", "\"\<.wl\>\""}], "]"}]}], ";"}], ",", "\[IndentingNewLine]", 
      RowBox[{
-      RowBox[{"ClearAll", "[", 
-       RowBox[{"EoM", ",", "gaugeFix"}], "]"}], ";"}], ",", 
+      RowBox[{"ClearAll", " ", "@", " ", "EoM"}], ";"}], ",", 
      "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{"Print", "[", "\"\<EoM reset\>\"", "]"}], ";"}]}], 
@@ -193,16 +194,16 @@ Cell[BoxData[{
    3.9872407722686787`*^9}, {3.987241049542148*^9, 3.987241049945943*^9}, {
    3.987241110272833*^9, 3.9872411134219923`*^9}, {3.987479058384355*^9, 
    3.987479061841302*^9}, {3.987479102697279*^9, 3.987479104991498*^9}, {
-   3.98748115142972*^9, 
-   3.987481154102634*^9}},ExpressionUUID->"8b4872ae-5179-44cc-ad37-\
-ebcbc73a8694"],
-
-Cell[BoxData["\<\"EoM reset\"\>"], "Print",
- CellChangeTimes->{3.987481152035872*^9},
- CellLabel->
-  "During evaluation of \
-In[80]:=",ExpressionUUID->"fd2a4564-cb96-4315-9cc4-20559476b881"]
-}, Open  ]],
+   3.98748115142972*^9, 3.987481154102634*^9}, 3.987490525304949*^9, 
+   3.987490561074786*^9, {3.987491479867783*^9, 3.987491489177108*^9}, {
+   3.987492101560164*^9, 3.9874921042341757`*^9}, {3.987494427758062*^9, 
+   3.987494432683113*^9}, {3.987496884729515*^9, 3.9874968877556877`*^9}, {
+   3.987497282207222*^9, 3.9874972857526407`*^9}, {3.9874976600340357`*^9, 
+   3.987497663667938*^9}, {3.987497814069681*^9, 3.987497816671234*^9}, {
+   3.987501615777858*^9, 3.987501620217463*^9}, 3.9875018863138123`*^9, {
+   3.987502810025434*^9, 3.987502828222507*^9}, 3.9875035459425488`*^9, {
+   3.987505708080649*^9, 3.98750571079957*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
 
 Cell[CellGroupData[{
 
@@ -215,133 +216,125 @@ Cell["EoM", "Subsection",
   3.9858608273064747`*^9}},ExpressionUUID->"a9cc6144-e534-43bc-84f4-\
 7261b076d482"],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"ClearAll", "[", 
-    RowBox[{"gaugeFix", ",", "cacheEoM"}], "]"}], ";"}], 
+    RowBox[{"cacheEoM", ",", " ", "gaugeFix"}], "]"}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"gaugeFix", " ", "=", " ", 
-    RowBox[{"{", 
+  RowBox[{"gaugeFix", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
      RowBox[{
-      RowBox[{
-       RowBox[{"\[Omega]tx", "[", "1", "]"}], " ", "->", " ", "0"}], ",", " ", 
-      RowBox[{
-       RowBox[{"\[Omega]ty", "[", "1", "]"}], " ", "->", " ", "0"}], ",", " ", 
-      RowBox[{
-       RowBox[{"\[Omega]xy", "[", "1", "]"}], " ", "->", " ", "0"}]}], 
-     "}"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+      RowBox[{"\[Omega]tx", "[", "1", "]"}], " ", "->", " ", "0"}], ",", " ", 
+     
+     RowBox[{
+      RowBox[{"\[Omega]ty", "[", "1", "]"}], " ", "->", " ", "0"}], ",", " ", 
+     
+     RowBox[{
+      RowBox[{"\[Omega]xy", "[", "1", "]"}], " ", "->", " ", "0"}]}], "}"}]}],
+   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{
-    RowBox[{"cacheEoM", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
+   RowBox[{"cacheEoM", "[", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "file", "}"}], ",", "\[IndentingNewLine]", 
      RowBox[{
-      RowBox[{"{", "file", "}"}], ",", "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{"file", "=", 
-        RowBox[{
-         RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<EoM.wl\>\""}]}], 
-       ";", "\[IndentingNewLine]", 
-       RowBox[{"ClearAll", " ", "@", " ", "EoM"}], ";", " ", 
-       RowBox[{"(*", " ", 
-        RowBox[{"Clear", " ", "cached", " ", "local", " ", "eqs"}], " ", 
-        "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
-       RowBox[{"(*", " ", 
-        RowBox[{
-        "Load", " ", "from", " ", "file", " ", "if", " ", "possible"}], " ", 
-        "*)"}], "\[IndentingNewLine]", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"FileExistsQ", "[", "file", "]"}], ",", 
-         "\[IndentingNewLine]", 
-         RowBox[{
-          RowBox[{"Quiet", " ", "@", " ", 
-           RowBox[{"Get", "[", "file", "]"}]}], ";", "\[IndentingNewLine]", 
-          RowBox[{"If", "[", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"ListQ", "[", "EoM", "]"}], "&&", 
-             RowBox[{
-              RowBox[{"Length", "@", "EoM"}], "==", 
-              RowBox[{"3", 
-               RowBox[{"(", 
-                RowBox[{"\[ScriptCapitalN]", "-", "1"}], ")"}]}]}]}], ",", 
-            " ", "\[IndentingNewLine]", 
-            RowBox[{
-             RowBox[{"Print", "[", "\"\<EoM loaded\>\"", "]"}], ";", " ", 
-             "\[IndentingNewLine]", 
-             RowBox[{"Return", "[", "EoM", "]"}]}]}], "\[IndentingNewLine]", 
-           "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
-       "\[IndentingNewLine]", 
-       RowBox[{"(*", " ", 
-        RowBox[{
-         RowBox[{"If", " ", "not"}], ",", " ", 
-         RowBox[{
-         "create", " ", "them", " ", "from", " ", "symmetry", " ", 
-          "condition", " ", "with", " ", "gauge", " ", "freedom", " ", "for", 
-          " ", 
-          SubscriptBox["e", "1"]}]}], " ", "*)"}], "\[IndentingNewLine]", 
-       RowBox[{"ClearAll", "[", 
-        RowBox[{
-        "e", ",", "uf", ",", "u", ",", "\[Nu]x", ",", "\[Nu]y", ",", 
-         "\[CapitalNu]", ",", "\[Beta]", ",", "exx", ",", "eyy", ",", "exy", ",",
-          "pair", ",", "zoom", ",", "tSlice"}], "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"vielbeinInit", "[", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"file", "=", 
        RowBox[{
-       "Print", "[", "\"\<EoM not found - recalculating...\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", "\[IndentingNewLine]", 
-       RowBox[{"EoM", " ", "=", " ", 
-        RowBox[{"Flatten", "@", 
-         RowBox[{"Table", "[", "\[IndentingNewLine]", 
+        RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<EoM-N\>\"", "<>", 
+        
+        RowBox[{"ToString", " ", "@", " ", "\[ScriptCapitalN]"}], 
+        "<>", "\"\<.wl\>\""}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"ClearAll", " ", "@", " ", "EoM"}], ";", " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Clear", " ", "cached", " ", "local", " ", "eqs"}], " ", 
+       "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"FileExistsQ", "[", "file", "]"}], ",", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Load", " ", "from", " ", "file", " ", "if", " ", "possible"}], " ", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Quiet", " ", "@", " ", 
+          RowBox[{"Get", "[", "file", "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
           RowBox[{
            RowBox[{
+            RowBox[{"ListQ", "[", "EoM", "]"}], "&&", 
             RowBox[{
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"A", "[", 
-                RowBox[{
-                 RowBox[{"e", "[", "I", "]"}], ",", " ", 
-                 RowBox[{"u", "[", "I", "]"}]}], "]"}], " ", "/.", " ", 
-               "gaugeFix"}], ")"}], "[", 
-             RowBox[{"[", 
-              RowBox[{"Sequence", "@@", "idx"}], "]"}], "]"}], "//", 
-            "Simplify"}], ",", "\[IndentingNewLine]", 
-           RowBox[{"{", 
-            RowBox[{"I", ",", "2", ",", "\[ScriptCapitalN]"}], "}"}], ",", 
-           " ", 
-           RowBox[{"{", 
-            RowBox[{"idx", ",", 
-             RowBox[{"Subsets", "[", 
-              RowBox[{
-               RowBox[{"Range", "[", "dim", "]"}], ",", 
-               RowBox[{"{", "2", "}"}]}], "]"}]}], "}"}]}], 
-          "\[IndentingNewLine]", "]"}]}]}], ";", "\[IndentingNewLine]", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Print", "[", 
+             RowBox[{"Length", " ", "@", " ", "EoM"}], "==", 
+             RowBox[{"3", 
+              RowBox[{"(", 
+               RowBox[{"\[ScriptCapitalN]", "-", "1"}], ")"}]}]}]}], ",", " ", 
+           RowBox[{"Return", "[", "EoM", "]"}]}], "]"}]}]}], "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"If", " ", "not"}], ",", " ", 
         RowBox[{
-         RowBox[{"Length", "@", "EoM"}], 
-         ",", "\"\< EoM successfully calculated\>\""}], "]"}], ";", 
-       "\[IndentingNewLine]", "\[IndentingNewLine]", 
-       RowBox[{"(*", " ", 
-        RowBox[{
-        "Delete", " ", "the", " ", "old", " ", "EoM", " ", "and", " ", "save",
-          " ", "the", " ", "new"}], " ", "*)"}], "\[IndentingNewLine]", 
-       RowBox[{"Quiet", "@", 
-        RowBox[{"DeleteFile", "[", "file", "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Quiet", "@", 
-        RowBox[{"Save", "[", 
-         RowBox[{"file", ",", "EoM"}], "]"}]}], ";", "\[IndentingNewLine]", 
-       "\[IndentingNewLine]", "EoM"}]}], " ", 
-     RowBox[{"(*", " ", 
-      RowBox[{"Return", " ", "the", " ", "EoM"}], " ", "*)"}], 
-     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+        "create", " ", "them", " ", "from", " ", "symmetry", " ", "condition",
+          " ", "with", " ", "gauge", " ", "freedom", " ", "for", " ", 
+         SubscriptBox["e", "1"]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"ClearAll", "[", 
+       RowBox[{
+       "e", ",", "uf", ",", "u", ",", "\[Nu]x", ",", "\[Nu]y", ",", 
+        "\[CapitalNu]", ",", "\[Beta]", ",", "exx", ",", "eyy", ",", "exy"}], 
+       "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"vielbeinInit", "[", "]"}], ";", " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Reinitialize", " ", "vielbeins"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"Print", "[", "\"\<EoM not found - recalculating...\>\"", "]"}],
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"EoM", " ", "=", " ", 
+       RowBox[{"Flatten", "@", 
+        RowBox[{"Table", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"A", "[", 
+               RowBox[{
+                RowBox[{"e", "[", "I", "]"}], ",", " ", 
+                RowBox[{"u", "[", "I", "]"}]}], "]"}], "/.", "gaugeFix"}], 
+             ")"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"Sequence", "@@", "idx"}], "]"}], "]"}], "//", 
+           "Simplify"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{"I", ",", "2", ",", "\[ScriptCapitalN]"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"idx", ",", 
+            RowBox[{"Subsets", "[", 
+             RowBox[{
+              RowBox[{"Range", "[", "dim", "]"}], ",", 
+              RowBox[{"{", "2", "}"}]}], "]"}]}], "}"}]}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Print", "[", 
+       RowBox[{
+        RowBox[{"Length", "@", "EoM"}], 
+        ",", "\"\< EoM successfully calculated\>\""}], "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"Quiet", " ", "@", " ", 
+       RowBox[{"DeleteFile", "[", "file", "]"}]}], ";", " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Delete", " ", "the", " ", "old", " ", "EoM"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"Quiet", " ", "@", " ", 
+       RowBox[{"Save", "[", 
+        RowBox[{"file", ",", "EoM"}], "]"}]}], ";", "    ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"and", " ", "save", " ", "the", " ", "new"}], " ", "*)"}], 
+      "\[IndentingNewLine]", "EoM"}]}], " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Return", " ", "the", " ", "EoM"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"cacheEoM", "[", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.791141690926423*^9, 3.791141740452351*^9}, {
@@ -419,31 +412,18 @@ Cell[BoxData[{
    3.987149078222543*^9, 3.9871490783748007`*^9}, {3.9872407457471123`*^9, 
    3.9872407569295883`*^9}, {3.987240943684987*^9, 3.9872409452616796`*^9}, {
    3.9872410851211987`*^9, 3.9872410900790253`*^9}, 3.987481126226602*^9, {
-   3.987490331005713*^9, 3.987490357526824*^9}, {3.987497626790782*^9, 
-   3.987497634408938*^9}},ExpressionUUID->"1810d050-3666-49c7-ad60-\
-7b5cd9c9ad82"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["\<\"EoM not found - recalculating...\"\>"], "Print",
- CellChangeTimes->{
-  3.987481026097021*^9, {3.987481146605667*^9, 3.987481156147781*^9}},
- CellLabel->
-  "During evaluation of \
-In[83]:=",ExpressionUUID->"adc98ced-8ec2-4d6b-95bf-c929aa8f897a"],
-
-Cell[BoxData[
- InterpretationBox[
-  RowBox[{"6", "\[InvisibleSpace]", "\<\" EoM successfully calculated\"\>"}],
-  SequenceForm[6, " EoM successfully calculated"],
-  Editable->False]], "Print",
- CellChangeTimes->{
-  3.987481026097021*^9, {3.987481146605667*^9, 3.987481157296648*^9}},
- CellLabel->
-  "During evaluation of \
-In[83]:=",ExpressionUUID->"84b0b112-891b-4154-b19c-cafb67a53ec7"]
-}, Open  ]]
-}, Open  ]]
+   3.987490331005713*^9, 3.987490357526824*^9}, {3.987490583555715*^9, 
+   3.987490593321102*^9}, {3.9874911368505983`*^9, 3.9874911650159388`*^9}, 
+   3.987491681028017*^9, {3.987494349206377*^9, 3.987494357605205*^9}, {
+   3.9874944592759*^9, 3.987494459516131*^9}, {3.98749757926335*^9, 
+   3.987497617750413*^9}, 3.9874976519581747`*^9, {3.987498377615333*^9, 
+   3.98749837946041*^9}, {3.987501581450379*^9, 3.987501600410584*^9}, {
+   3.987502833909677*^9, 3.9875028521256733`*^9}, {3.987503373590103*^9, 
+   3.987503379620142*^9}, {3.987503470186613*^9, 3.987503525056405*^9}, 
+   3.987503559930902*^9, {3.987506402721449*^9, 3.987506403094186*^9}, {
+   3.987508758859713*^9, 
+   3.987508813335843*^9}},ExpressionUUID->"1810d050-3666-49c7-ad60-\
+7b5cd9c9ad82"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -455,9 +435,7 @@ Cell["EoM solver", "Subsection",
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{
-   RowBox[{"ClearAll", " ", "@", " ", "solver"}], ";"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+  RowBox[{"ClearAll", " ", "@", " ", "solver"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"solver", "[", 
@@ -467,9 +445,9 @@ Cell[BoxData[{
      RowBox[{"{", 
       RowBox[{"omegas", ",", "eqs", ",", "sol"}], "}"}], ",", 
      "\[IndentingNewLine]", 
-     RowBox[{"(*", 
-      RowBox[{"Solve", " ", "for", " ", "Lorentz", " ", "params"}], "*)"}], 
-     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"Solve", " ", "for", " ", "Lorentz", " ", "parameters"}], " ", 
+      "*)"}], "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{"omegas", "=", 
        RowBox[{"Flatten", "[", 
@@ -493,46 +471,22 @@ Cell[BoxData[{
            RowBox[{"{", 
             RowBox[{"i", ",", "2", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}],
           ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
-      "\[IndentingNewLine]", 
       RowBox[{"eqs", "=", "EoM"}], ";", "\[IndentingNewLine]", 
-      "\[IndentingNewLine]", 
       RowBox[{"sol", "=", 
-       RowBox[{"FindRoot", "[", "\[IndentingNewLine]", 
+       RowBox[{"FindRoot", "[", 
         RowBox[{
          RowBox[{"Thread", "[", 
-          RowBox[{"eqs", "\[Equal]", "0"}], "]"}], ",", "\[IndentingNewLine]", 
-         RowBox[{"(*", " ", 
-          RowBox[{
-           RowBox[{"uf", "==", 
-            RowBox[{"DiagonalMatrix", "[", 
-             RowBox[{"{", 
-              RowBox[{"1", ",", "1", ",", "1"}], "}"}], "]"}]}], ","}], 
-          "*)"}], "\[IndentingNewLine]", "omegas", ",", "\[IndentingNewLine]", 
-         RowBox[{"AccuracyGoal", "\[Rule]", "accuracy"}]}], 
-        "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"eqs", "\[Equal]", "0"}], "]"}], ",", " ", "omegas", ",", 
+         " ", 
+         RowBox[{"AccuracyGoal", "\[Rule]", "accuracy"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"Join", "[", 
-       RowBox[{"gaugeFix", ",", "sol"}], "]"}]}]}], "\[IndentingNewLine]", 
-    RowBox[{"(*", 
+       RowBox[{"gaugeFix", ",", "sol"}], "]"}]}]}], " ", 
+    RowBox[{"(*", " ", 
      RowBox[{
-      RowBox[{"zeroOmega", "=", 
-       RowBox[{"Flatten", "@", 
-        RowBox[{"Table", "[", 
-         RowBox[{
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"\[Omega]tx", "[", "j", "]"}], "->", "0"}], ",", 
-            RowBox[{
-             RowBox[{"\[Omega]ty", "[", "j", "]"}], "->", "0"}], ",", 
-            RowBox[{
-             RowBox[{"\[Omega]xy", "[", "j", "]"}], "->", "0"}]}], "}"}], ",", 
-          RowBox[{"{", 
-           RowBox[{"j", ",", "2", ",", "\[ScriptCapitalN]"}], "}"}]}], 
-         "]"}]}]}], ";", "\[IndentingNewLine]", 
-      RowBox[{"Join", "[", 
-       RowBox[{"gaugeFix", ",", "zeroOmega"}], "]"}]}], "*)"}], 
-    "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
+     "Return", " ", "solutions", " ", "in", " ", "terms", " ", "of", " ", 
+      "omegas"}], " ", "*)"}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}]}], "Input",
  CellChangeTimes->{{3.986618419082858*^9, 3.986618455339416*^9}, {
    3.986638662129107*^9, 3.986638668836372*^9}, {3.986966574227738*^9, 
    3.986966576686981*^9}, {3.986967717443614*^9, 3.986967726684317*^9}, {
@@ -541,9 +495,14 @@ Cell[BoxData[{
    3.987240297976935*^9, 3.987240302014443*^9}, 3.987240349224619*^9, {
    3.98724043094734*^9, 3.9872404367825603`*^9}, {3.987240508020074*^9, 
    3.9872405507543287`*^9}, {3.9874830060769587`*^9, 
-   3.9874830199400797`*^9}, {3.987483052749693*^9, 3.987483072522588*^9}},
- CellLabel->
-  "In[220]:=",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
+   3.9874830199400797`*^9}, {3.987483052749693*^9, 3.987483072522588*^9}, {
+   3.987490404260614*^9, 3.987490426348713*^9}, {3.987490599723798*^9, 
+   3.9874905999934797`*^9}, {3.987490637694278*^9, 3.987490648330946*^9}, {
+   3.987491119838408*^9, 3.987491120467812*^9}, 3.9874943378528852`*^9, {
+   3.9874976903606043`*^9, 3.987497697874702*^9}, {3.9875033249609947`*^9, 
+   3.9875034561103277`*^9}, {3.9875035708912163`*^9, 3.987503576319611*^9}, 
+   3.98750882142159*^9},ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-\
+0530d05e106e"]
 }, Open  ]]
 }, Open  ]],
 
@@ -577,8 +536,8 @@ Cell[BoxData[{
      RowBox[{
       RowBox[{"{", 
        RowBox[{"d", "=", 
-        RowBox[{"Quiet", "@", 
-         RowBox[{"N", "@", 
+        RowBox[{"Quiet", " ", "@", " ", 
+         RowBox[{"N", " ", "@", " ", 
           RowBox[{"Det", "[", 
            RowBox[{"mat", "/.", " ", "sol"}], "]"}]}]}]}], "}"}], ",", 
       RowBox[{"{", "\[IndentingNewLine]", 
@@ -586,67 +545,36 @@ Cell[BoxData[{
         RowBox[{"\"\<Object\>\"", "->", "name"}], ",", "\[IndentingNewLine]", 
         
         RowBox[{"\"\<Det\>\"", "->", "d"}], ",", "\[IndentingNewLine]", 
-        RowBox[{"\"\<Finite\>\"", "->", 
+        RowBox[{"\"\<< \[Infinity]\>\"", "->", 
          RowBox[{"FreeQ", "[", 
           RowBox[{"d", ",", 
            RowBox[{"Indeterminate", "|", "Infinity", "|", 
             RowBox[{"DirectedInfinity", "[", "_", "]"}], "|", 
             "ComplexInfinity"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
-        RowBox[{"\"\<Real\>\"", "->", 
+        RowBox[{"\"\<\[Element] \[DoubleStruckCapitalR]\>\"", "->", 
          RowBox[{
           RowBox[{"RealValuedNumericQ", "[", "d", "]"}], "&&", 
           RowBox[{
            RowBox[{"Im", "[", "d", "]"}], "==", "0"}]}]}], ",", 
         "\[IndentingNewLine]", 
-        RowBox[{"\"\<Positive\>\"", "->", 
+        RowBox[{"\"\<> 0\>\"", "->", 
          RowBox[{
           RowBox[{"Re", "[", "d", "]"}], ">", "tol"}]}]}], 
-       RowBox[{"(*", 
-        RowBox[{",", "\[IndentingNewLine]", 
-         RowBox[{"\"\<Sign\>\"", "->", 
-          RowBox[{"Quiet", "@", 
-           RowBox[{"Check", "[", 
-            RowBox[{
-             RowBox[{"Sign", "[", "d", "]"}], ",", 
-             RowBox[{"Missing", "[", "\"\<NotAvailable\>\"", "]"}]}], 
-            "]"}]}]}]}], "*)"}], "\[IndentingNewLine]", "}"}]}], "]"}]}], 
-   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"verify", "[", 
-   RowBox[{"sol_", ",", " ", "res_", ",", " ", "check_", ",", " ", 
+   RowBox[{
+   "sol_", ",", " ", "res_", ",", " ", "check_", ",", "obj_", ",", " ", 
     RowBox[{"tol_", ":", 
      SuperscriptBox["10", 
       RowBox[{"-", "10"}]]}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
    RowBox[{
     RowBox[{"{", 
      RowBox[{"objects", ",", "detRows", ",", "tabDet", ",", "resRow"}], "}"}],
-     ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     ",", "\[IndentingNewLine]", 
     RowBox[{
-     RowBox[{"objects", "=", 
-      RowBox[{"Join", "[", "\[IndentingNewLine]", 
-       RowBox[{
-        RowBox[{"Table", "[", 
-         RowBox[{
-          RowBox[{
-           RowBox[{"Subscript", "[", 
-            RowBox[{"\"\<e\>\"", ",", "i"}], "]"}], "->", 
-           RowBox[{"e", "[", "i", "]"}]}], ",", 
-          RowBox[{"{", 
-           RowBox[{"i", ",", "1", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}], 
-        ",", "\[IndentingNewLine]", 
-        RowBox[{"{", 
-         RowBox[{"\"\<u\>\"", "->", "uf"}], "}"}], ",", "\[IndentingNewLine]", 
-        RowBox[{"Table", "[", 
-         RowBox[{
-          RowBox[{
-           RowBox[{"Subscript", "[", 
-            RowBox[{"\"\<u\>\"", ",", "i"}], "]"}], "->", 
-           RowBox[{"u", "[", "i", "]"}]}], ",", 
-          RowBox[{"{", 
-           RowBox[{"i", ",", "1", ",", "\[ScriptCapitalN]"}], "}"}]}], 
-         "]"}]}], "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
-     "\[IndentingNewLine]", 
      RowBox[{"detRows", "=", 
       RowBox[{
        RowBox[{
@@ -656,8 +584,7 @@ Cell[BoxData[{
            RowBox[{"[", "1", "]"}], "]"}], ",", 
           RowBox[{"#", "[", 
            RowBox[{"[", "2", "]"}], "]"}], ",", "sol", ",", "tol"}], "]"}], 
-        "&"}], "/@", "objects"}]}], ";", "\[IndentingNewLine]", 
-     "\[IndentingNewLine]", 
+        "&"}], "/@", "obj"}]}], ";", "\[IndentingNewLine]", 
      RowBox[{"tabDet", " ", "=", " ", 
       RowBox[{"Tabular", "[", 
        RowBox[{"detRows", ",", 
@@ -675,11 +602,11 @@ Cell[BoxData[{
                  RowBox[{"#", "===", "False"}], ",", " ", "LightRed", ",", 
                  " ", "White"}], "]"}]}], "]"}], "&"}], ")"}]}], 
           "\[IndentingNewLine]", "|>"}]}]}], "]"}]}], ";", 
-     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
      RowBox[{"resRow", " ", "=", 
       RowBox[{"Framed", "[", 
        RowBox[{
-        RowBox[{"Row", "@", 
+        RowBox[{"Row", " ", "@", " ", 
          RowBox[{"{", "\[IndentingNewLine]", 
           RowBox[{
            RowBox[{"Style", "[", 
@@ -687,20 +614,20 @@ Cell[BoxData[{
             "]"}], ",", "\"\<  \>\"", ",", "\[IndentingNewLine]", 
            RowBox[{"Style", "[", 
             RowBox[{
-             RowBox[{"ToString", "@", "check"}], ",", " ", 
+             RowBox[{"ToString", " ", "@", " ", "check"}], ",", " ", 
              RowBox[{"Directive", "[", 
               RowBox[{"If", "[", 
                RowBox[{"check", ",", " ", "Green", ",", " ", "Red"}], "]"}], 
               "]"}], ",", " ", "14", ",", " ", "Bold"}], "]"}]}], 
-          "\[IndentingNewLine]", "}"}]}], ",", 
+          "\[IndentingNewLine]", "}"}]}], ",", " ", 
         RowBox[{"Background", "->", "White"}], ",", " ", 
         RowBox[{"ImageSize", "->", "Full"}], ",", " ", 
         RowBox[{"Alignment", "->", "Center"}]}], "]"}]}], ";", 
      "\[IndentingNewLine]", "\[IndentingNewLine]", 
-     RowBox[{"Column", "[", 
-      RowBox[{"{", " ", 
-       RowBox[{"resRow", ",", "tabDet"}], "}"}], "]"}]}]}], 
-   "\[IndentingNewLine]", "]"}]}]}], "Input",
+     RowBox[{"Column", " ", "@", " ", 
+      RowBox[{"{", 
+       RowBox[{"resRow", ",", "tabDet"}], "}"}]}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
  CellChangeTimes->{{3.986876975626602*^9, 3.98687713382032*^9}, {
    3.986877206517331*^9, 3.986877373181868*^9}, {3.986877440653942*^9, 
    3.986877531718873*^9}, {3.986877591118231*^9, 3.986877632771673*^9}, 
@@ -749,8 +676,12 @@ Cell[BoxData[{
    3.987485317714428*^9}, {3.9874854099336*^9, 3.987485444103106*^9}, {
    3.987485589715694*^9, 3.987485680031303*^9}, 3.987485756447747*^9, {
    3.98748580628961*^9, 3.987485892620487*^9}, {3.987490382189014*^9, 
-   3.9874903855925694`*^9}},ExpressionUUID->"9a6af327-cd90-4a93-8e4b-\
-a40f8d866a2a"]
+   3.9874903855925694`*^9}, {3.987490662560227*^9, 3.987490664365034*^9}, 
+   3.987491110562776*^9, {3.987491777908947*^9, 3.987491796767576*^9}, 
+   3.987494305851131*^9, {3.9874988682295628`*^9, 3.987498941545123*^9}, {
+   3.987500091047586*^9, 3.9875001197509336`*^9}, {3.9875001556942883`*^9, 
+   3.9875001657467937`*^9}, {3.987501926849141*^9, 3.987501954213689*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -764,59 +695,54 @@ Cell["Parameter initialization", "Subsection",
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{
-   RowBox[{"ClearAll", " ", "@", " ", "resetParams"}], ";"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+  RowBox[{"ClearAll", " ", "@", " ", "resetParams"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{
-    RowBox[{"resetParams", "[", "]"}], ":=", 
-    RowBox[{"(", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{"ClearAll", "[", 
-       RowBox[{
-       "\[Nu]x", ",", "\[Nu]y", ",", "\[CapitalNu]", ",", "\[Beta]", ",", 
-        "exx", ",", "eyy", ",", "exy", ",", "pair", ",", "zoom", ",", 
-        "tSlice"}], "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-      
-      RowBox[{"Do", "[", "\[IndentingNewLine]", 
+   RowBox[{"resetParams", "[", "]"}], ":=", 
+   RowBox[{"(", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"ClearAll", "[", 
+      RowBox[{
+      "\[Nu]x", ",", "\[Nu]y", ",", "\[CapitalNu]", ",", "\[Beta]", ",", 
+       "exx", ",", "eyy", ",", "exy", ",", "pair", ",", "zoom", ",", "tSlice",
+        ",", "sol", ",", "check", ",", "residuals"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Do", "[", "\[IndentingNewLine]", 
+      RowBox[{
        RowBox[{
         RowBox[{
-         RowBox[{
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"\[Nu]x", "[", "i", "]"}], ",", 
-            RowBox[{"\[Nu]y", "[", "i", "]"}]}], "}"}], "=", 
+         RowBox[{"{", 
           RowBox[{
-          "defaultShifts", "\[LeftDoubleBracket]", "i", 
-           "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"\[Nu]x", "[", "i", "]"}], ",", 
+           RowBox[{"\[Nu]y", "[", "i", "]"}]}], "}"}], "=", 
          RowBox[{
-          RowBox[{"\[CapitalNu]", "[", "i", "]"}], "=", "1"}], ";", " ", 
-         RowBox[{
-          RowBox[{"\[Beta]", "[", "i", "]"}], "=", "1"}], ";", 
-         "\[IndentingNewLine]", 
-         RowBox[{
-          RowBox[{"exx", "[", "i", "]"}], "=", "1"}], ";", " ", 
-         RowBox[{
-          RowBox[{"eyy", "[", "i", "]"}], "=", "1"}], ";", " ", 
-         RowBox[{
-          RowBox[{"exy", "[", "i", "]"}], "=", "0"}]}], "\[IndentingNewLine]",
-         ",", 
-        RowBox[{"{", 
-         RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], 
-       "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
-      "\[IndentingNewLine]", 
-      RowBox[{"zoom", "=", "2"}], ";", "\[IndentingNewLine]", 
-      RowBox[{"tSlice", "=", "1"}], ";", "\[IndentingNewLine]", 
-      "\[IndentingNewLine]", 
-      RowBox[{"Do", "[", 
-       RowBox[{
+         "defaultShifts", "\[LeftDoubleBracket]", "i", 
+          "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{
-         RowBox[{"pair", "[", "i", "]"}], "=", 
-         RowBox[{"pairDefault", "[", "i", "]"}]}], ",", 
-        RowBox[{"{", 
-         RowBox[{"i", ",", "nForms"}], "}"}]}], "]"}]}], 
-     "\[IndentingNewLine]", ")"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+         RowBox[{"\[CapitalNu]", "[", "i", "]"}], "=", "1"}], ";", " ", 
+        RowBox[{
+         RowBox[{"\[Beta]", "[", "i", "]"}], "=", "1"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"exx", "[", "i", "]"}], "=", "1"}], ";", " ", 
+        RowBox[{
+         RowBox[{"eyy", "[", "i", "]"}], "=", "1"}], ";", " ", 
+        RowBox[{
+         RowBox[{"exy", "[", "i", "]"}], "=", "0"}]}], "\[IndentingNewLine]", 
+       ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"zoom", "=", "2"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"tSlice", "=", "1"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Do", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"pair", "[", "i", "]"}], "=", 
+        RowBox[{"pairDefault", "[", "i", "]"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "nForms"}], "}"}]}], "]"}]}], "\[IndentingNewLine]",
+     ")"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"resetParams", "[", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.986619509633286*^9, 3.9866195494038563`*^9}, {
@@ -833,9 +759,12 @@ Cell[BoxData[{
    3.98706941380835*^9, 3.987069463129863*^9}, {3.9871460353886557`*^9, 
    3.987146061363577*^9}, {3.987480198181395*^9, 3.987480285808573*^9}, {
    3.987481605973673*^9, 3.9874816159693737`*^9}, 3.987481879812936*^9, {
-   3.987483102205428*^9, 3.987483110709186*^9}},
- CellLabel->
-  "In[411]:=",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
+   3.987483102205428*^9, 3.987483110709186*^9}, {3.987490660493861*^9, 
+   3.9874906694164677`*^9}, {3.9874972293098907`*^9, 3.987497234550715*^9}, {
+   3.9874989587392693`*^9, 3.9874989612700253`*^9}, {3.987501366691383*^9, 
+   3.987501381038096*^9}, {3.987508851899406*^9, 
+   3.987508857167164*^9}},ExpressionUUID->"35165020-b99a-4338-8e03-\
+1ef48605da7e"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -852,16 +781,17 @@ Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{"ClearAll", "@", "sol"}], ";"}], "\n"}], "\[IndentingNewLine]", 
+   RowBox[{"ClearAll", "[", 
+    RowBox[{
+    "sol", ",", " ", "check", ",", " ", "residuals", ",", " ", "setN"}], 
+    "]"}], ";"}], "\n"}], "\[IndentingNewLine]", 
  RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{"Block", "[", "\[IndentingNewLine]", 
+   RowBox[{"Block", "[", 
     RowBox[{
      RowBox[{"{", 
-      RowBox[{"(*", 
-       RowBox[{"sol", ",", "residuals", ",", "check"}], "*)"}], 
       RowBox[{
-      "objMap", ",", "eqsToPlot", ",", "pairLabels", ",", "pairData", ",", 
+      "nullCones", ",", "pairLabels", ",", "pairData", ",", 
        "\[DoubleStruckCapitalT]t", ",", "lightlike", ",", "config"}], "}"}], ",",
       "\[IndentingNewLine]", "\[IndentingNewLine]", 
      RowBox[{
@@ -873,9 +803,8 @@ Cell[BoxData[{
       RowBox[{"(*", " ", 
        RowBox[{
         RowBox[{"Get", " ", "solution"}], ",", " ", 
-        RowBox[{
-        "calculate", " ", "residuals", " ", "and", " ", "check", " ", 
-         "validity"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"check", " ", "validity"}]}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
       RowBox[{"sol", " ", "=", " ", 
        RowBox[{"Quiet", " ", "@", " ", 
         RowBox[{"solver", "[", "]"}]}]}], ";", "\[IndentingNewLine]", 
@@ -891,7 +820,7 @@ Cell[BoxData[{
            RowBox[{"#1", "<", 
             SuperscriptBox["10", 
              RowBox[{"-", "10"}]]}], "&"}], ")"}], "/@", 
-         RowBox[{"Abs", "[", "residuals", "]"}]}]}]}], ";", 
+         RowBox[{"Abs", " ", "@", " ", "residuals"}]}]}]}], ";", 
       "\[IndentingNewLine]", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
        RowBox[{"UI", " ", "validity", " ", "readout"}], " ", "*)"}], 
@@ -910,40 +839,109 @@ Cell[BoxData[{
       RowBox[{"(*", " ", 
        RowBox[{"Evaluate", " ", "vielbeins", " ", "and", " ", "map"}], " ", 
        "*)"}], "\[IndentingNewLine]", 
-      RowBox[{"objMap", "=", 
-       RowBox[{"Association", " ", "@", " ", 
-        RowBox[{"Join", "[", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{"iFrame", ",", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"u", " ", "=", " ", 
+          RowBox[{"\[DoubleStruckCapitalI]", " ", "frame"}]}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"Module", "[", 
          RowBox[{
-          RowBox[{"Table", "[", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"\"\<e\>\"", "<>", 
-              RowBox[{"ToString", "@", "i"}]}], "\[Rule]", 
-             RowBox[{"Chop", "[", 
-              RowBox[{
-               RowBox[{"e", "[", "i", "]"}], "/.", "\[VeryThinSpace]", 
-               "sol"}], "]"}]}], ",", 
-            RowBox[{"{", 
-             RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}], ",", 
-          "\[IndentingNewLine]", 
           RowBox[{"{", 
-           RowBox[{"\"\<u\>\"", "\[Rule]", 
-            RowBox[{"Chop", "[", 
-             RowBox[{"uf", "/.", "\[VeryThinSpace]", "sol"}], "]"}]}], "}"}], 
-          ",", "\[IndentingNewLine]", 
-          RowBox[{"Table", "[", 
            RowBox[{
-            RowBox[{
-             RowBox[{"\"\<u\>\"", "<>", 
-              RowBox[{"ToString", "@", "i"}]}], "\[Rule]", 
-             RowBox[{"Chop", "[", 
+           "eSol", ",", "ufSol", ",", " ", "uInv", ",", " ", "eStar", ",", 
+            "ufStar"}], "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"eSol", "[", "i_", "]"}], ":=", 
+            RowBox[{"Chop", "[", 
+             RowBox[{
+              RowBox[{"e", "[", "i", "]"}], "/.", "sol"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"ufSol", "=", 
+            RowBox[{"Chop", "[", 
+             RowBox[{"uf", "/.", "sol"}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"uInv", "=", 
+            RowBox[{"Quiet", "@", 
+             RowBox[{"Check", "[", 
               RowBox[{
-               RowBox[{"u", "[", "i", "]"}], "/.", "\[VeryThinSpace]", 
-               "sol"}], "]"}]}], ",", 
-            RowBox[{"{", 
-             RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}]}], 
-         "\[IndentingNewLine]", "]"}]}]}], ";", "\[IndentingNewLine]", 
-      "\[IndentingNewLine]", 
+               RowBox[{"Inverse", "[", "ufSol", "]"}], ",", "$Failed"}], 
+              "]"}]}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"eStar", "[", "i_", "]"}], ":=", 
+            RowBox[{"Chop", "[", 
+             RowBox[{
+              RowBox[{"eSol", "[", "i", "]"}], ".", "uInv"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"ufStar", "=", 
+            RowBox[{"Chop", "[", 
+             RowBox[{"ufSol", ".", "uInv"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"objMap", "=", 
+            RowBox[{"Association", " ", "@", " ", 
+             RowBox[{"Join", "[", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"\"\<e\>\"", "<>", 
+                   RowBox[{"ToString", " ", "@", " ", "i"}]}], "\[Rule]", 
+                  RowBox[{"eStar", "[", "i", "]"}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}], ",",
+                "\[IndentingNewLine]", 
+               RowBox[{"{", 
+                RowBox[{"\"\<u\>\"", "\[Rule]", "ufStar"}], "}"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"\"\<u\>\"", "<>", 
+                   RowBox[{"ToString", " ", "@", " ", "i"}]}], "\[Rule]", 
+                  RowBox[{"ufStar", "-", 
+                   RowBox[{"eStar", "[", "i", "]"}]}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}]}], 
+              "]"}]}]}], ";"}]}], "\[IndentingNewLine]", "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"Original", " ", "frame"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"objMap", "=", 
+          RowBox[{"Association", " ", "@", " ", 
+           RowBox[{"Join", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"\"\<e\>\"", "<>", 
+                 RowBox[{"ToString", " ", "@", " ", "i"}]}], "\[Rule]", 
+                RowBox[{"Chop", "[", 
+                 RowBox[{
+                  RowBox[{"e", "[", "i", "]"}], "/.", "\[VeryThinSpace]", 
+                  "sol"}], "]"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"{", 
+              RowBox[{"\"\<u\>\"", "\[Rule]", 
+               RowBox[{"Chop", "[", 
+                RowBox[{"uf", "/.", "\[VeryThinSpace]", "sol"}], "]"}]}], 
+              "}"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"\"\<u\>\"", "<>", 
+                 RowBox[{"ToString", " ", "@", " ", "i"}]}], "\[Rule]", 
+                RowBox[{"Chop", "[", 
+                 RowBox[{
+                  RowBox[{"u", "[", "i", "]"}], "/.", "\[VeryThinSpace]", 
+                  "sol"}], "]"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}]}], 
+            "]"}]}]}], ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
        RowBox[{
        "Construct", " ", "equation", " ", "and", " ", "label", " ", "data"}], 
@@ -961,7 +959,7 @@ Cell[BoxData[{
              RowBox[{"{", 
               RowBox[{"a", ",", "b"}], "}"}], "=", 
              RowBox[{"pair", "[", "idx", "]"}]}], ";", "\[IndentingNewLine]", 
-            "\[IndentingNewLine]", 
+            
             RowBox[{"If", "[", 
              RowBox[{
               RowBox[{
@@ -977,21 +975,10 @@ Cell[BoxData[{
                  RowBox[{
                   RowBox[{"objMap", "[", "a", "]"}], ",", 
                   RowBox[{"objMap", "[", "b", "]"}]}], 
-                 "\[RightAngleBracket]"}]}], ";", "\[IndentingNewLine]", 
-               RowBox[{"(*", 
-                RowBox[{
-                 RowBox[{"form", " ", "=", " ", 
-                  RowBox[{
-                   RowBox[{"(", 
-                    RowBox[{"form", " ", "+", " ", 
-                    RowBox[{"form", "\[Transpose]"}]}], ")"}], "/", "2"}]}], 
-                 ";"}], "*)"}], "\[IndentingNewLine]", 
-               RowBox[{"(*", 
-                RowBox[{
-                 RowBox[{"cone", "=", 
-                  RowBox[{"nc$", " ", "@", " ", "form"}]}], ";"}], "*)"}], 
-               " ", 
-               RowBox[{"(*", "ORIGINAL", "*)"}], "\[IndentingNewLine]", 
+                 "\[RightAngleBracket]"}]}], ";", " ", 
+               RowBox[{"(*", " ", 
+                RowBox[{"Create", " ", "bilinear"}], " ", "*)"}], 
+               "\[IndentingNewLine]", 
                RowBox[{"cone", "=", 
                 RowBox[{"If", "[", 
                  RowBox[{
@@ -1000,32 +987,33 @@ Cell[BoxData[{
                   RowBox[{"nc$", " ", "@", " ", 
                    RowBox[{"Inverse", " ", "@", " ", "form"}]}]}], "]"}]}], ";",
                 "\[IndentingNewLine]", 
-               RowBox[{"{", "\[IndentingNewLine]", 
+               RowBox[{"{", " ", 
+                RowBox[{"(*", " ", 
+                 RowBox[{"Return", " ", "data"}], " ", "*)"}], 
+                "\[IndentingNewLine]", 
                 RowBox[{
                  RowBox[{"cone", "\[Equal]", "0"}], ",", 
-                 RowBox[{"(*", 
-                  RowBox[{"Null", " ", "equations"}], "*)"}], 
+                 RowBox[{"(*", " ", 
+                  RowBox[{"Null", " ", "equations"}], " ", "*)"}], 
                  "\[IndentingNewLine]", 
                  RowBox[{"Row", "[", 
                   RowBox[{"{", 
                    RowBox[{
                     RowBox[{"vielLabel", "[", "a", "]"}], ",", 
                     RowBox[{"Style", "[", 
-                    RowBox[{
-                    
-                    RowBox[{"\"\<\[Transpose]\[Eta] \>\"", "//", 
-                    "TraditionalForm"}], ",", "10"}], "]"}], ",", 
+                    RowBox[{"\"\<\[Transpose]\[Eta] \>\"", ",", "10"}], "]"}],
+                     ",", 
                     RowBox[{"vielLabel", "[", "b", "]"}]}], "}"}], "]"}], ",",
                   "\[IndentingNewLine]", 
                  RowBox[{"cone", "\[LessEqual]", "0"}]}], " ", 
-                RowBox[{"(*", 
-                 RowBox[{"Lightlike", " ", "equations"}], "*)"}], 
+                RowBox[{"(*", " ", 
+                 RowBox[{"Lightlike", " ", "equations"}], " ", "*)"}], 
                 "\[IndentingNewLine]", "}"}]}]}], "]"}]}]}], 
           "\[IndentingNewLine]", "]"}], ",", 
          RowBox[{"{", 
           RowBox[{"idx", ",", "nForms"}], "}"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", "\[IndentingNewLine]", 
-      RowBox[{"eqsToPlot", "=", 
+      RowBox[{"nullCones", "=", 
        RowBox[{"DeleteCases", "[", 
         RowBox[{
          RowBox[{"pairData", "\[LeftDoubleBracket]", 
@@ -1041,6 +1029,24 @@ Cell[BoxData[{
        RowBox[{"pairData", "\[LeftDoubleBracket]", 
         RowBox[{"All", ",", "3"}], "\[RightDoubleBracket]"}]}], ";", 
       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"setN", "[", "n_", "]"}], ":=", 
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"\[ScriptCapitalN]", "=", "n"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"Get", "[", 
+             RowBox[{
+              RowBox[{"NotebookDirectory", "[", "]"}], 
+              "<>", "\"\<controls.wl\>\""}], "]"}], ";"}], "*)"}], " ", 
+          RowBox[{"(*", 
+           RowBox[{"Need", "?"}], "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"resetParams", "[", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"cacheEoM", "[", "]"}], ";"}]}], "\[IndentingNewLine]", 
+        "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
       RowBox[{"(*", " ", 
        RowBox[{"Plot", " ", "solutions"}], " ", "*)"}], "\[IndentingNewLine]", 
       RowBox[{"Switch", "[", 
@@ -1049,7 +1055,7 @@ Cell[BoxData[{
          RowBox[{
           RowBox[{"plotCones2D", "[", 
            RowBox[{
-           "eqsToPlot", ",", "zoom", ",", "config", ",", "pairLabels", ",", 
+           "nullCones", ",", "zoom", ",", "config", ",", "pairLabels", ",", 
             "crossPoints", ",", " ", "check"}], "]"}], ",", 
           "\[IndentingNewLine]", 
           RowBox[{"Graphics", "[", 
@@ -1070,24 +1076,42 @@ Cell[BoxData[{
              "}"}]}]}], "\[IndentingNewLine]", "]"}], ",", 
         "\[IndentingNewLine]", "\"\<3D\>\"", ",", 
         RowBox[{"plotCones3D", "[", 
-         RowBox[{"eqsToPlot", ",", 
-          RowBox[{"(*", 
-           RowBox[{"1", ","}], "*)"}], "zoom", ",", "config", ",", 
-          "pairLabels"}], "]"}]}], "\[IndentingNewLine]", "]"}]}]}], 
-    "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", 
-    RowBox[{"UI", " ", "controls"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"Style", "[", 
-    RowBox[{"\"\<Mixed Bilinear Form Explorer\>\"", ",", "14", ",", "Bold"}], 
-    "]"}], ",", "\[IndentingNewLine]", "Delimiter", ",", 
+         RowBox[{"nullCones", ",", "zoom", ",", "config", ",", "pairLabels"}],
+          "]"}]}], "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+    "]"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"UI", " ", "controls"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"Row", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<\[ScriptCapitalN]=\>\"", ",", "14", ",", "Bold"}], "]"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{"PopupMenu", "[", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{"Set", " ", "number", " ", "of", " ", "vielbeins"}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Dynamic", "[", 
+         RowBox[{"\[ScriptCapitalN]", ",", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"setN", "[", "#", "]"}], ")"}], "&"}]}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Range", "[", 
+         RowBox[{"2", ",", "6"}], "]"}], ",", 
+        RowBox[{"Appearance", "->", "\"\<Button\>\""}], ",", " ", 
+        RowBox[{"Alignment", "->", "Center"}]}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\< Vielbein Null Cones\>\"", ",", "14", ",", "Bold"}], 
+       "]"}]}], "}"}], "]"}], ",", "\[IndentingNewLine]", "Delimiter", ",", 
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"Evaluate", " ", "@", " ", 
     RowBox[{"formGrid", "[", "]"}]}], ",", " ", 
    RowBox[{"(*", " ", 
     RowBox[{"Bilinear", " ", "form", " ", "selection", " ", "grid"}], " ", 
-    "*)"}], "\[IndentingNewLine]", "Delimiter", ",", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
+    "*)"}], " ", "Delimiter", ",", "\[IndentingNewLine]", 
    RowBox[{"Evaluate", " ", "@", " ", 
     RowBox[{"overlapControl", "[", "]"}]}], ",", "\[IndentingNewLine]", 
    RowBox[{"Evaluate", " ", "@", " ", 
@@ -1105,7 +1129,17 @@ Cell[BoxData[{
           RowBox[{"duals", ",", "False", ",", "\"\<Duals\>\""}], "}"}], ",", 
          RowBox[{"{", 
           RowBox[{"True", ",", "False"}], "}"}]}], "}"}], "]"}], ",", 
-      RowBox[{"Spacer", "[", "10", "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Spacer", "[", "5", "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Control", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+          "iFrame", ",", "False", 
+           ",", "\"\<u = \[DoubleStruckCapitalI]\>\""}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"True", ",", "False"}], "}"}]}], "}"}], "]"}], ",", 
+      RowBox[{"Spacer", "[", "5", "]"}], ",", "\[IndentingNewLine]", 
       RowBox[{"Control", "[", 
        RowBox[{"{", 
         RowBox[{
@@ -1117,7 +1151,7 @@ Cell[BoxData[{
           RowBox[{"Dynamic", "[", 
            RowBox[{"plotDim", "===", "\"\<2D\>\""}], "]"}]}]}], "}"}], "]"}], 
       ",", 
-      RowBox[{"Spacer", "[", "10", "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Spacer", "[", "5", "]"}], ",", "\[IndentingNewLine]", 
       RowBox[{"Control", "[", 
        RowBox[{"{", 
         RowBox[{
@@ -1139,41 +1173,38 @@ Cell[BoxData[{
        RowBox[{"{", 
         RowBox[{
          RowBox[{"{", 
-          RowBox[{"plotDim", ",", "\"\<2D\>\"", ",", "\"\<View\>\""}], "}"}], 
-         ",", 
+          RowBox[{"plotDim", ",", "\"\<2D\>\"", ",", "\"\<\>\""}], "}"}], ",", 
          RowBox[{"{", 
           RowBox[{"\"\<2D\>\"", ",", "\"\<3D\>\""}], "}"}], ",", 
          "SetterBar"}], "}"}], "]"}], ",", 
-      RowBox[{"Spacer", "[", "10", "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Spacer", "[", "5", "]"}], ",", "\[IndentingNewLine]", 
       RowBox[{"ButtonBar", "[", 
        RowBox[{
-        RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"{", " ", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "Verification", " ", "dialog", " ", "and", " ", "reset", " ", 
+           "button"}], " ", "*)"}], "\[IndentingNewLine]", 
          RowBox[{
           RowBox[{
            RowBox[{"Style", "[", 
-            RowBox[{"\"\<Verify\>\"", ",", "10"}], "]"}], ":>", 
+            RowBox[{"\"\<Verify\>\"", ",", "9"}], "]"}], ":>", 
            RowBox[{"CreateDialog", "[", 
             RowBox[{"Dynamic", "[", 
              RowBox[{"verify", "[", 
-              RowBox[{"sol", ",", " ", "residuals", ",", " ", "check"}], 
-              "]"}], "]"}], "]"}]}], ",", "\[IndentingNewLine]", 
+              RowBox[{
+              "sol", ",", " ", "residuals", ",", " ", "check", ",", " ", 
+               RowBox[{"Normal", "@", "objMap"}]}], "]"}], "]"}], "]"}]}], ",",
+           "\[IndentingNewLine]", 
           RowBox[{
            RowBox[{"Style", "[", 
-            RowBox[{"\"\<Reset\>\"", ",", "10"}], "]"}], ":>", 
+            RowBox[{"\"\<Reset\>\"", ",", "9"}], "]"}], ":>", 
            RowBox[{"resetParams", "[", "]"}]}]}], "\[IndentingNewLine]", 
-         "}"}], ",", "\[IndentingNewLine]", 
-        RowBox[{"ImageSize", "->", "Medium"}]}], 
-       RowBox[{"(*", 
-        RowBox[{",", "\[IndentingNewLine]", 
-         RowBox[{"BaseStyle", "->", 
-          RowBox[{"Dynamic", "@", 
-           RowBox[{"If", "[", 
-            RowBox[{
-             RowBox[{"CurrentValue", "[", "\"\<MouseOver\>\"", "]"}], ",", 
-             "Green", ",", "Black"}], "]"}]}]}]}], "*)"}], 
-       "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "}"}], "]"}], ",",
-    "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   "Delimiter", ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         "}"}], ",", 
+        RowBox[{"ImageSize", "->", "Medium"}]}], "]"}], ",", 
+      RowBox[{"Spacer", "[", "5", "]"}]}], "\[IndentingNewLine]", "}"}], 
+    "]"}], ",", "Delimiter", ",", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{"Column", "@", 
     RowBox[{"Table", "[", 
      RowBox[{
@@ -1205,40 +1236,19 @@ Cell[BoxData[{
    RowBox[{"(*", " ", 
     RowBox[{"Spatial", " ", "controls"}], " ", "*)"}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{
-     RowBox[{"Shift", " ", "controls", " ", "for", " ", "3", "D"}], " ", "-", 
-     " ", 
-     RowBox[{
-      RowBox[{"doesn", "'"}], "t", " ", "work"}]}], " ", "*)"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{"OpenerView", "[", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{"\"\<Shift controls\>\"", ",", " ", 
-         RowBox[{"Row", "@", 
-          RowBox[{"Table", "[", 
-           RowBox[{
-            RowBox[{"{", 
-             RowBox[{"shiftControls", "[", 
-              RowBox[{"i", ",", "zoom"}], "]"}], "}"}], ",", 
-            RowBox[{"{", 
-             RowBox[{"i", ",", "\[ScriptCapitalN]"}], "}"}]}], "]"}]}]}], 
-        "}"}], ",", "False"}], "]"}], ","}], "*)"}], "\[IndentingNewLine]", 
-   "Delimiter", ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"TrackedSymbols", "\[RuleDelayed]", 
-    RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{"{", 
      RowBox[{
      "\[Nu]x", ",", "\[Nu]y", ",", "\[CapitalNu]", ",", "\[Beta]", ",", "exx",
        ",", "eyy", ",", "exy", ",", "pair", ",", "\[IndentingNewLine]", 
       "zoom", ",", "showArea", ",", "tSlice", ",", "crossPoints", ",", 
-      "modes", ",", "plotDim", ",", "duals"}], "\[IndentingNewLine]", "}"}]}],
-    ",", "\[IndentingNewLine]", 
+      "modes", ",", "plotDim", ",", "duals", ",", "iFrame"}], "}"}]}], ",", 
+   "\[IndentingNewLine]", 
    RowBox[{"Paneled", "\[Rule]", "False"}], ",", "\[IndentingNewLine]", 
-   RowBox[{"ControlPlacement", "\[Rule]", "Right"}]}], "\[IndentingNewLine]", 
-  "]"}]}], "Input",
+   RowBox[{"ControlPlacement", "\[Rule]", "Right"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"AppearanceElements", "->", "\"\<ResetButton\>\""}]}], 
+  "\[IndentingNewLine]", "]"}]}], "Input",
  CellChangeTimes->{{3.9866180005350847`*^9, 3.986618108357856*^9}, {
    3.986618138785264*^9, 3.986618373275058*^9}, {3.986619287403183*^9, 
    3.986619305706031*^9}, {3.986619351314891*^9, 3.9866194555213327`*^9}, {
@@ -1359,28 +1369,61 @@ Cell[BoxData[{
    3.987489310896578*^9}, {3.987489353363802*^9, 3.9874893564379807`*^9}, {
    3.987489737992166*^9, 3.987489739395859*^9}, {3.987489780619299*^9, 
    3.987489840563601*^9}, {3.987489872580039*^9, 3.9874899331560097`*^9}, {
-   3.9874899677695827`*^9, 3.987490075112979*^9}, {3.987490479700675*^9, 
-   3.9874904879970007`*^9}},
- CellLabel->
-  "In[414]:=",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
+   3.9874899677695827`*^9, 3.987490075112979*^9}, {3.9874907829571333`*^9, 
+   3.9874908162887993`*^9}, {3.987490888165477*^9, 3.9874909270592413`*^9}, {
+   3.987490962725193*^9, 3.9874911016959333`*^9}, {3.987491252158196*^9, 
+   3.987491253488834*^9}, {3.987491289041724*^9, 3.987491348144991*^9}, 
+   3.987491427987507*^9, 3.9874917687593718`*^9, {3.987491853711692*^9, 
+   3.987491857923472*^9}, {3.987491943141096*^9, 3.98749197710126*^9}, {
+   3.9874921910724497`*^9, 3.9874922003075933`*^9}, {3.987492327300156*^9, 
+   3.987492338415362*^9}, {3.987494315086635*^9, 3.987494317845854*^9}, 
+   3.9874944705292377`*^9, {3.987496822353657*^9, 3.987496859184011*^9}, {
+   3.987496919365834*^9, 3.987496924029385*^9}, {3.987497246598098*^9, 
+   3.987497272321014*^9}, {3.98749797668799*^9, 3.987497993058765*^9}, {
+   3.987498984591277*^9, 3.9874989868020487`*^9}, {3.9875001933279533`*^9, 
+   3.987500193646077*^9}, {3.9875013150551167`*^9, 3.9875013537921247`*^9}, {
+   3.987502002292123*^9, 3.987502063376692*^9}, {3.987502514955842*^9, 
+   3.987502529489012*^9}, {3.987502999025216*^9, 3.987503004350449*^9}, 
+   3.987503095012678*^9, {3.987503595726701*^9, 3.987503688471257*^9}, {
+   3.9875037211728983`*^9, 3.987503728799613*^9}, {3.9875037637431087`*^9, 
+   3.9875038257274323`*^9}, {3.987504076667737*^9, 3.98750416833879*^9}, {
+   3.9875042371802597`*^9, 3.9875043830559*^9}, {3.987504426161422*^9, 
+   3.987504448500505*^9}, {3.987504582742399*^9, 3.98750458405301*^9}, {
+   3.987504727133466*^9, 3.987504730984157*^9}, {3.987504917444648*^9, 
+   3.9875049884844437`*^9}, {3.987505031030304*^9, 3.98750504295811*^9}, {
+   3.9875051049450397`*^9, 3.987505199352463*^9}, {3.987505236044959*^9, 
+   3.98750523713339*^9}, {3.987505459180326*^9, 3.98750560895455*^9}, {
+   3.9875056491471357`*^9, 3.987505656347351*^9}, 3.9875072554198637`*^9, {
+   3.987507320806942*^9, 3.987507375815995*^9}, {3.9875077899761553`*^9, 
+   3.98750779383261*^9}, {3.987507874926305*^9, 3.9875078777447863`*^9}, {
+   3.987508200792843*^9, 3.987508224890327*^9}, {3.98750859023245*^9, 
+   3.987508609827738*^9}, {3.9875086717634077`*^9, 3.987508682752839*^9}, {
+   3.987508882593676*^9, 
+   3.9875088839152946`*^9}},ExpressionUUID->"1b3ae560-28b9-4767-a51e-\
+056394b7ce6c"],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
    DynamicModuleBox[{$CellContext`crossPoints$$ = 
-    False, $CellContext`duals$$ = 
+    False, $CellContext`duals$$ = False, $CellContext`iFrame$$ = 
     False, $CellContext`modes$$ = {}, $CellContext`plotDim$$ = 
     "2D", $CellContext`showArea$$ = False, Typeset`show$$ = True, 
     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
     Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
     "\"untitled\"", Typeset`specs$$ = {{
       Hold[
-       Style["Mixed Bilinear Form Explorer", 14, Bold]], 
+       Row[{
+         Style["\[ScriptCapitalN]=", 14, Bold], 
+         PopupMenu[
+          Dynamic[$CellContext`\[ScriptCapitalN], $CellContext`setN[#]& ], {2,
+           3, 4, 5, 6}, Appearance -> "Button", Alignment -> Center], 
+         Style[" Vielbein Null Cones", 14, Bold]}]], 
       Manipulate`Dump`ThisIsNotAControl, ControlType -> None}, {
       Hold[
        Grid[{{
           Row[{
-            Style[" 1 ", Bold, 8], 
+            Style["1 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1392,9 +1435,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1409,13 +1450,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
-            Style[" 2 ", Bold, 8], 
+            Style["2 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1427,9 +1466,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1444,13 +1481,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
-            Style[" 3 ", Bold, 8], 
+            Style["3 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1462,9 +1497,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1479,13 +1512,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}]}, {
           Row[{
-            Style[" 4 ", Bold, 8], 
+            Style["4 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1497,9 +1528,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1514,13 +1543,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
-            Style[" 5 ", Bold, 8], 
+            Style["5 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1532,9 +1559,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1549,13 +1574,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
-            Style[" 6 ", Bold, 8], 
+            Style["6 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1567,9 +1590,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1584,13 +1605,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}]}, {
           Row[{
-            Style[" 7 ", Bold, 8], 
+            Style["7 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1602,9 +1621,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1619,13 +1636,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
-            Style[" 8 ", Bold, 8], 
+            Style["8 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1637,9 +1652,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1654,13 +1667,11 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}], 
           Row[{
-            Style[" 9 ", Bold, 8], 
+            Style["9 ", Bold, 8], 
             PopupMenu[
              Dynamic[
               Part[
@@ -1672,9 +1683,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}], 
             Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -1689,9 +1698,7 @@ Cell[BoxData[
                 Subscript["e", 3], 10], "u" -> Style["u", 10], "u1" -> Style[
                 Subscript["u", 1], 10], "u2" -> Style[
                 Subscript["u", 2], 10], "u3" -> Style[
-                Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], "s1" -> 
-              Style[
-                Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
              Appearance -> "Button", ContentPadding -> False, 
              ImageSize -> {20, 18}]}]}}, Alignment -> Left, 
         Spacings -> {0.5, 1}]], Manipulate`Dump`ThisIsNotAControl, 
@@ -2096,6 +2103,8 @@ Cell[BoxData[
       Manipulate`Dump`ThisIsNotAControl, ControlType -> None}, {{
        Hold[$CellContext`duals$$], False, "Duals"}, {True, False}, 
       ControlType -> Checkbox}, {{
+       Hold[$CellContext`iFrame$$], False, "u = \[DoubleStruckCapitalI]"}, {
+      True, False}, ControlType -> Checkbox}, {{
        Hold[$CellContext`showArea$$], False, "Area"}, {True, False}, 
       ControlType -> Checkbox}, {{
        Hold[$CellContext`crossPoints$$], False, "Crossing"}, {True, False}, 
@@ -2103,26 +2112,31 @@ Cell[BoxData[
       Hold[
        Row[{
          Manipulate`Place[2], 
-         Spacer[10], 
+         Spacer[5], 
          Manipulate`Place[3], 
-         Spacer[10], 
-         Manipulate`Place[4]}]], Manipulate`Dump`ThisIsNotAControl, 
+         Spacer[5], 
+         Manipulate`Place[4], 
+         Spacer[5], 
+         Manipulate`Place[5]}]], Manipulate`Dump`ThisIsNotAControl, 
       ControlType -> None}, {
       Hold[
        Spacer[0]], Manipulate`Dump`ThisIsNotAControl, ControlType -> None}, {{
       
-       Hold[$CellContext`plotDim$$], "2D", "View"}, {"2D", "3D"}, ControlType -> 
+       Hold[$CellContext`plotDim$$], "2D", ""}, {"2D", "3D"}, ControlType -> 
       SetterBar}, {
       Hold[
        Row[{
-         Manipulate`Place[5], 
-         Spacer[10], 
-         ButtonBar[{Style["Verify", 10] :> CreateDialog[
+         Manipulate`Place[6], 
+         Spacer[5], 
+         ButtonBar[{Style["Verify", 9] :> CreateDialog[
              Dynamic[
               $CellContext`verify[$CellContext`sol, $CellContext`residuals, \
-$CellContext`check]]], Style["Reset", 10] :> $CellContext`resetParams[]}, 
-          ImageSize -> Medium]}]], Manipulate`Dump`ThisIsNotAControl, 
-      ControlType -> None}, {
+$CellContext`check, 
+               Normal[$CellContext`objMap]]]], 
+           Style["Reset", 9] :> $CellContext`resetParams[]}, ImageSize -> 
+          Medium], 
+         Spacer[5]}]], Manipulate`Dump`ThisIsNotAControl, ControlType -> 
+      None}, {
       Hold[
        Column[{
          Labeled[
@@ -3369,7 +3383,7 @@ $CellContext`check]]], Style["Reset", 10] :> $CellContext`resetParams[]},
     DynamicBox[Manipulate`ManipulateBoxes[
      2, StandardForm, 
       "Variables" :> {$CellContext`crossPoints$$ = 
-        False, $CellContext`duals$$ = 
+        False, $CellContext`duals$$ = False, $CellContext`iFrame$$ = 
         False, $CellContext`modes$$ = {}, $CellContext`plotDim$$ = 
         "2D", $CellContext`showArea$$ = False}, "ControllerVariables" :> {}, 
       "OtherVariables" :> {
@@ -3378,9 +3392,9 @@ $CellContext`check]]], Style["Reset", 10] :> $CellContext`resetParams[]},
         Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
          Typeset`skipInitDone$$, Typeset`keyframeActionsQ$$, 
         Typeset`keyframeList$$}, "Body" :> 
-      Block[{$CellContext`objMap, $CellContext`eqsToPlot, \
-$CellContext`pairLabels, $CellContext`pairData, $CellContext`\
-\[DoubleStruckCapitalT]t, $CellContext`lightlike, $CellContext`config}, 
+      Block[{$CellContext`nullCones, $CellContext`pairLabels, \
+$CellContext`pairData, $CellContext`\[DoubleStruckCapitalT]t, \
+$CellContext`lightlike, $CellContext`config}, 
         If[$CellContext`plotDim$$ === 
           "2D", $CellContext`\[DoubleStruckCapitalT]t = $CellContext`tSlice]; \
 $CellContext`sol = Quiet[
@@ -3393,18 +3407,48 @@ $CellContext`check = Apply[And,
          If[$CellContext`check, 
            Style["Valid Config", 
             Darker[Green]], 
-           Style["Invalid Config", Red, Bold]]; $CellContext`objMap = <|
-           Join[
-            Table["e" <> ToString[$CellContext`i] -> Chop[
-               ReplaceAll[
-                $CellContext`e[$CellContext`i], $CellContext`sol]], \
+           Style["Invalid Config", Red, Bold]]; If[$CellContext`iFrame$$, 
+          
+          Module[{$CellContext`eSol, $CellContext`ufSol, $CellContext`uInv, \
+$CellContext`eStar, $CellContext`ufStar}, $CellContext`eSol[
+              Pattern[$CellContext`i, 
+               Blank[]]] := Chop[
+              ReplaceAll[
+               $CellContext`e[$CellContext`i], $CellContext`sol]]; \
+$CellContext`ufSol = Chop[
+              
+              ReplaceAll[$CellContext`uf, $CellContext`sol]]; \
+$CellContext`uInv = Quiet[
+              Check[
+               Inverse[$CellContext`ufSol], $Failed]]; $CellContext`eStar[
+              Pattern[$CellContext`i, 
+               Blank[]]] := Chop[
+              Dot[
+               $CellContext`eSol[$CellContext`i], $CellContext`uInv]]; \
+$CellContext`ufStar = Chop[
+              
+              Dot[$CellContext`ufSol, $CellContext`uInv]]; \
+$CellContext`objMap = <|
+              Join[
+               Table[
+               "e" <> ToString[$CellContext`i] -> \
+$CellContext`eStar[$CellContext`i], {$CellContext`i, $CellContext`\
+\[ScriptCapitalN]}], {"u" -> $CellContext`ufStar}, 
+               Table[
+               "u" <> ToString[$CellContext`i] -> $CellContext`ufStar - \
+$CellContext`eStar[$CellContext`i], {$CellContext`i, $CellContext`\
+\[ScriptCapitalN]}]]|>; Null], $CellContext`objMap = <|
+             Join[
+              Table["e" <> ToString[$CellContext`i] -> Chop[
+                 ReplaceAll[
+                  $CellContext`e[$CellContext`i], $CellContext`sol]], \
 {$CellContext`i, $CellContext`\[ScriptCapitalN]}], {"u" -> Chop[
-               ReplaceAll[$CellContext`uf, $CellContext`sol]]}, 
-            Table["u" <> ToString[$CellContext`i] -> Chop[
-               ReplaceAll[
-                $CellContext`u[$CellContext`i], $CellContext`sol]], \
-{$CellContext`i, $CellContext`\[ScriptCapitalN]}]]|>; $CellContext`pairData = 
-         Table[
+                 ReplaceAll[$CellContext`uf, $CellContext`sol]]}, 
+              Table["u" <> ToString[$CellContext`i] -> Chop[
+                 ReplaceAll[
+                  $CellContext`u[$CellContext`i], $CellContext`sol]], \
+{$CellContext`i, $CellContext`\[ScriptCapitalN]}]]|>; 
+          Null]; $CellContext`pairData = Table[
            
            Module[{$CellContext`a$, $CellContext`b$, $CellContext`form$, \
 $CellContext`cone$}, {$CellContext`a$, $CellContext`b$} = \
@@ -3420,19 +3464,22 @@ $CellContext`pair[$CellContext`idx]; If[
                   Inverse[$CellContext`form$]]]; {$CellContext`cone$ == 0, 
                 Row[{
                   $CellContext`vielLabel[$CellContext`a$], 
-                  Style[
-                   TraditionalForm["\[Transpose]\[Eta] "], 10], 
+                  Style["\[Transpose]\[Eta] ", 10], 
                   $CellContext`vielLabel[$CellContext`b$]}], \
 $CellContext`cone$ <= 
                 0}]], {$CellContext`idx, $CellContext`nForms}]; \
-$CellContext`eqsToPlot = DeleteCases[
+$CellContext`nullCones = DeleteCases[
            Part[$CellContext`pairData, All, 1], 
            None]; $CellContext`pairLabels = DeleteCases[
            Part[$CellContext`pairData, All, 2], None]; $CellContext`lightlike = 
-         Part[$CellContext`pairData, All, 3]; 
+         Part[$CellContext`pairData, All, 3]; $CellContext`setN[
+           Pattern[$CellContext`n, 
+            Blank[]]] := 
+         Module[{}, $CellContext`\[ScriptCapitalN] = $CellContext`n; \
+$CellContext`resetParams[]; $CellContext`cacheEoM[]; Null]; 
         Switch[$CellContext`plotDim$$, "2D", 
           Show[
-           $CellContext`plotCones2D[$CellContext`eqsToPlot, \
+           $CellContext`plotCones2D[$CellContext`nullCones, \
 $CellContext`zoom, $CellContext`config, $CellContext`pairLabels, \
 $CellContext`crossPoints$$, $CellContext`check], 
            Graphics[
@@ -3441,12 +3488,17 @@ $CellContext`crossPoints$$, $CellContext`check],
 $CellContext`\[ScriptCapitalN]}]], Epilog -> {
              $CellContext`plotOverlap2D[$CellContext`modes$$, \
 $CellContext`lightlike, $CellContext`zoom, $CellContext`showArea$$]}], "3D", 
-          $CellContext`plotCones3D[$CellContext`eqsToPlot, $CellContext`zoom, \
+          $CellContext`plotCones3D[$CellContext`nullCones, $CellContext`zoom, \
 $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
-        Style["Mixed Bilinear Form Explorer", 14, Bold], Delimiter, 
+        Row[{
+          Style["\[ScriptCapitalN]=", 14, Bold], 
+          PopupMenu[
+           Dynamic[$CellContext`\[ScriptCapitalN], $CellContext`setN[#]& ], {
+           2, 3, 4, 5, 6}, Appearance -> "Button", Alignment -> Center], 
+          Style[" Vielbein Null Cones", 14, Bold]}], Delimiter, 
         Grid[{{
            Row[{
-             Style[" 1 ", Bold, 8], 
+             Style["1 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3460,9 +3512,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3479,13 +3529,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
-             Style[" 2 ", Bold, 8], 
+             Style["2 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3499,9 +3547,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3518,13 +3564,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
-             Style[" 3 ", Bold, 8], 
+             Style["3 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3538,9 +3582,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3557,13 +3599,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}]}, {
            Row[{
-             Style[" 4 ", Bold, 8], 
+             Style["4 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3577,9 +3617,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3596,13 +3634,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
-             Style[" 5 ", Bold, 8], 
+             Style["5 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3616,9 +3652,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3635,13 +3669,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
-             Style[" 6 ", Bold, 8], 
+             Style["6 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3655,9 +3687,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3674,13 +3704,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}]}, {
            Row[{
-             Style[" 7 ", Bold, 8], 
+             Style["7 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3694,9 +3722,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3713,13 +3739,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
-             Style[" 8 ", Bold, 8], 
+             Style["8 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3733,9 +3757,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3752,13 +3774,11 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}], 
            Row[{
-             Style[" 9 ", Bold, 8], 
+             Style["9 ", Bold, 8], 
              PopupMenu[
               Dynamic[
                Part[
@@ -3772,9 +3792,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}], 
              Style["\[Transpose] \[Eta] ", "SR", 8], 
@@ -3791,9 +3809,7 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
                Style[
                  Subscript["u", 1], 10], "u2" -> Style[
                  Subscript["u", 2], 10], "u3" -> Style[
-                 Subscript["u", 3], 10], "\[Eta]" -> Style["\[Eta]", 10], 
-               "s1" -> Style[
-                 Subscript["s", 1], 10]}, Alignment -> {Center, Bottom}, 
+                 Subscript["u", 3], 10]}, Alignment -> {Center, Bottom}, 
               Appearance -> "Button", ContentPadding -> False, 
               ImageSize -> {20, 18}]}]}}, Alignment -> Left, 
          Spacings -> {0.5, 1}], 
@@ -4204,29 +4220,37 @@ $CellContext`config, $CellContext`pairLabels]]], "Specifications" :> {
             Appearance -> None, Enabled -> Automatic], 
           DynamicModuleValues :> {}], "t-slice", 
          Left], {{$CellContext`duals$$, False, "Duals"}, {True, False}, 
-         ControlPlacement -> 2}, {{$CellContext`showArea$$, False, "Area"}, {
-         True, False}, Enabled -> Dynamic[$CellContext`plotDim$$ === "2D"], 
          ControlPlacement -> 
-         3}, {{$CellContext`crossPoints$$, False, "Crossing"}, {True, False}, 
+         2}, {{$CellContext`iFrame$$, False, "u = \[DoubleStruckCapitalI]"}, {
+         True, False}, ControlPlacement -> 
+         3}, {{$CellContext`showArea$$, False, "Area"}, {True, False}, 
          Enabled -> Dynamic[$CellContext`plotDim$$ === "2D"], 
-         ControlPlacement -> 4}, 
+         ControlPlacement -> 
+         4}, {{$CellContext`crossPoints$$, False, "Crossing"}, {True, False}, 
+         Enabled -> Dynamic[$CellContext`plotDim$$ === "2D"], 
+         ControlPlacement -> 5}, 
         Row[{
           Manipulate`Place[2], 
-          Spacer[10], 
+          Spacer[5], 
           Manipulate`Place[3], 
-          Spacer[10], 
-          Manipulate`Place[4]}], 
+          Spacer[5], 
+          Manipulate`Place[4], 
+          Spacer[5], 
+          Manipulate`Place[5]}], 
         Spacer[
-        0], {{$CellContext`plotDim$$, "2D", "View"}, {"2D", "3D"}, 
-         ControlType -> SetterBar, ControlPlacement -> 5}, 
+        0], {{$CellContext`plotDim$$, "2D", ""}, {"2D", "3D"}, ControlType -> 
+         SetterBar, ControlPlacement -> 6}, 
         Row[{
-          Manipulate`Place[5], 
-          Spacer[10], 
-          ButtonBar[{Style["Verify", 10] :> CreateDialog[
+          Manipulate`Place[6], 
+          Spacer[5], 
+          ButtonBar[{Style["Verify", 9] :> CreateDialog[
               Dynamic[
                $CellContext`verify[$CellContext`sol, $CellContext`residuals, \
-$CellContext`check]]], Style["Reset", 10] :> $CellContext`resetParams[]}, 
-           ImageSize -> Medium]}], Delimiter, 
+$CellContext`check, 
+                Normal[$CellContext`objMap]]]], 
+            Style["Reset", 9] :> $CellContext`resetParams[]}, ImageSize -> 
+           Medium], 
+          Spacer[5]}], Delimiter, 
         Column[{
           Labeled[
            DynamicModule[{System`GaugesDump`height = Dynamic[
@@ -5459,16 +5483,17 @@ $CellContext`check]]], Style["Reset", 10] :> $CellContext`resetParams[]},
             0.1], 
            Subsuperscript["E", "ij", 3], Top]}, 
          Spacer[0]], 
-        Spacer[5], Delimiter}, 
+        Spacer[5]}, 
       "Options" :> {
        TrackedSymbols :> {$CellContext`\[Nu]x, $CellContext`\[Nu]y, \
 $CellContext`\[CapitalNu], $CellContext`\[Beta], $CellContext`exx, \
 $CellContext`eyy, $CellContext`exy, $CellContext`pair, $CellContext`zoom, \
 $CellContext`showArea$$, $CellContext`tSlice, $CellContext`crossPoints$$, \
-$CellContext`modes$$, $CellContext`plotDim$$, $CellContext`duals$$}, Paneled -> 
-        False, ControlPlacement -> Right}, "DefaultOptions" :> {}],
+$CellContext`modes$$, $CellContext`plotDim$$, $CellContext`duals$$, \
+$CellContext`iFrame$$}, Paneled -> False, ControlPlacement -> Right, 
+        AppearanceElements -> "ResetButton"}, "DefaultOptions" :> {}],
      ImageSizeCache->{
-      1176.8232666015624`, {466.0055732727051, 473.1704902648926}},
+      1176.8232666015624`, {466.05875968933105`, 473.22367668151855`}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -5479,20 +5504,15 @@ $CellContext`modes$$, $CellContext`plotDim$$, $CellContext`duals$$}, Paneled ->
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.9874884922252398`*^9, 3.9874885637795553`*^9, 
-  3.987488612473935*^9, 3.987488854387086*^9, 3.9874889621954117`*^9, 
-  3.987489167375092*^9, 3.9874892181109333`*^9, 3.987489256810658*^9, 
-  3.987489325551169*^9, 3.98748935948606*^9, 3.987490083849543*^9, 
-  3.987490503407275*^9},
- CellLabel->
-  "Out[415]=",ExpressionUUID->"97ba600a-1a0d-4222-83a0-11bcae39dd40"]
+ CellChangeTimes->{3.987508486006007*^9, 3.987508872096714*^9},
+ CellLabel->"Out[24]=",ExpressionUUID->"f9e1e3ca-2007-477d-9dd8-7dd6936cf3ff"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{1329, 1382},
-WindowMargins->{{Automatic, 1030}, {Automatic, 0}},
+WindowMargins->{{993, Automatic}, {Automatic, 0}},
 DockedCells->{},
 LightDark->"Light",
 FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
@@ -5507,7 +5527,7 @@ StyleDefinitions->Notebook[{
       "StrikeThrough" -> False, "Underline" -> False}]}, Visible -> False, 
   FrontEndVersion -> "14.3 for Mac OS X ARM (64-bit) (July 8, 2025)", 
   StyleDefinitions -> "PrivateStylesheetFormatting.nb"],
-ExpressionUUID->"f06ef99e-03d6-4455-afda-5ec87efd2b35"
+ExpressionUUID->"fc4ad36b-0331-461b-b08e-fbcb07644966"
 ]
 (* End of Notebook Content *)
 
@@ -5522,50 +5542,41 @@ CellTagsIndex->{}
 Notebook[{
 Cell[CellGroupData[{
 Cell[576, 22, 262, 4, 120, "Title",ExpressionUUID->"8b84fc04-136c-4712-90b8-0d020c4ac551"],
-Cell[841, 28, 994, 22, 152, "Text",ExpressionUUID->"f6b4afff-2699-405d-991c-99f1b8eda326"],
+Cell[841, 28, 1094, 23, 152, "Text",ExpressionUUID->"f6b4afff-2699-405d-991c-99f1b8eda326"],
 Cell[CellGroupData[{
-Cell[1860, 54, 152, 3, 82, "Section",ExpressionUUID->"f45cb5d4-315f-4ab3-9bb4-8d4c922008db"],
-Cell[2015, 59, 365, 7, 36, "Input",ExpressionUUID->"ff0c9937-29cb-4729-8608-12b722183b87"],
-Cell[2383, 68, 241, 4, 36, "Input",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
-Cell[2627, 74, 822, 16, 62, "Input",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
-Cell[3452, 92, 2774, 51, 240, "Input",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
+Cell[1960, 55, 152, 3, 82, "Section",ExpressionUUID->"f45cb5d4-315f-4ab3-9bb4-8d4c922008db"],
+Cell[2115, 60, 464, 8, 36, "Input",ExpressionUUID->"ff0c9937-29cb-4729-8608-12b722183b87"],
+Cell[2582, 70, 240, 4, 36, "Input",ExpressionUUID->"06030519-f155-4af7-abe3-2177192a0216"],
+Cell[2825, 76, 821, 16, 62, "Input",ExpressionUUID->"13938a5b-c281-4d7d-9550-e7996dff859a"],
+Cell[3649, 94, 2808, 53, 240, "Input",ExpressionUUID->"7b8dd2f1-0c26-4809-baed-0f2103a382f1"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6263, 148, 191, 3, 82, "Section",ExpressionUUID->"c2d2167e-7304-43dd-91d9-e126352a8dae"],
+Cell[6494, 152, 191, 3, 82, "Section",ExpressionUUID->"c2d2167e-7304-43dd-91d9-e126352a8dae"],
+Cell[6688, 157, 2708, 48, 189, "Input",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
 Cell[CellGroupData[{
-Cell[6479, 155, 2061, 42, 215, "Input",ExpressionUUID->"8b4872ae-5179-44cc-ad37-ebcbc73a8694"],
-Cell[8543, 199, 190, 4, 28, "Print",ExpressionUUID->"fd2a4564-cb96-4315-9cc4-20559476b881"]
+Cell[9421, 209, 451, 7, 66, "Subsection",ExpressionUUID->"a9cc6144-e534-43bc-84f4-7261b076d482"],
+Cell[9875, 218, 11227, 207, 674, "Input",ExpressionUUID->"1810d050-3666-49c7-ad60-7b5cd9c9ad82"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8770, 208, 451, 7, 66, "Subsection",ExpressionUUID->"a9cc6144-e534-43bc-84f4-7261b076d482"],
-Cell[CellGroupData[{
-Cell[9246, 219, 10918, 204, 930, "Input",ExpressionUUID->"1810d050-3666-49c7-ad60-7b5cd9c9ad82"],
-Cell[CellGroupData[{
-Cell[20189, 427, 262, 5, 28, "Print",ExpressionUUID->"adc98ced-8ec2-4d6b-95bf-c929aa8f897a"],
-Cell[20454, 434, 388, 9, 28, "Print",ExpressionUUID->"84b0b112-891b-4154-b19c-cafb67a53ec7"]
-}, Open  ]]
+Cell[21139, 430, 162, 3, 66, "Subsection",ExpressionUUID->"44ed6b69-4b03-482a-b933-50dc229d04b6"],
+Cell[21304, 435, 3094, 69, 266, "Input",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[20903, 450, 162, 3, 66, "Subsection",ExpressionUUID->"44ed6b69-4b03-482a-b933-50dc229d04b6"],
-Cell[21068, 455, 3763, 90, 547, "Input",ExpressionUUID->"96e40bed-a9a9-47b5-b8d2-0530d05e106e"]
-}, Open  ]]
+Cell[24447, 510, 218, 4, 82, "Section",ExpressionUUID->"bbf6912f-3007-4f90-85a2-4a9994132a55"],
+Cell[CellGroupData[{
+Cell[24690, 518, 162, 3, 66, "Subsection",ExpressionUUID->"1c6f78d1-b1ad-4a0f-97bd-24b349e8bade"],
+Cell[24855, 523, 8260, 160, 626, "Input",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[24880, 551, 218, 4, 82, "Section",ExpressionUUID->"bbf6912f-3007-4f90-85a2-4a9994132a55"],
-Cell[CellGroupData[{
-Cell[25123, 559, 162, 3, 66, "Subsection",ExpressionUUID->"1c6f78d1-b1ad-4a0f-97bd-24b349e8bade"],
-Cell[25288, 564, 9218, 188, 906, "Input",ExpressionUUID->"9a6af327-cd90-4a93-8e4b-a40f8d866a2a"]
+Cell[33152, 688, 320, 5, 66, "Subsection",ExpressionUUID->"f6b7ed4c-853f-46dc-879f-98c6a6a122b5"],
+Cell[33475, 695, 3400, 71, 343, "Input",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[34543, 757, 320, 5, 66, "Subsection",ExpressionUUID->"f6b7ed4c-853f-46dc-879f-98c6a6a122b5"],
-Cell[34866, 764, 3352, 73, 496, "Input",ExpressionUUID->"35165020-b99a-4338-8e03-1ef48605da7e"]
-}, Open  ]],
+Cell[36912, 771, 333, 5, 66, "Subsection",ExpressionUUID->"db433adc-8c0c-4830-8d84-defba1f5eb26"],
 Cell[CellGroupData[{
-Cell[38255, 842, 333, 5, 66, "Subsection",ExpressionUUID->"db433adc-8c0c-4830-8d84-defba1f5eb26"],
-Cell[CellGroupData[{
-Cell[38613, 851, 25767, 513, 2703, "Input",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
-Cell[64383, 1366, 209909, 4121, 976, "Output",ExpressionUUID->"97ba600a-1a0d-4222-83a0-11bcae39dd40"]
+Cell[37270, 780, 31394, 622, 2958, "Input",ExpressionUUID->"1b3ae560-28b9-4767-a51e-056394b7ce6c"],
+Cell[68667, 1404, 208443, 4103, 960, "Output",ExpressionUUID->"f9e1e3ca-2007-477d-9dd8-7dd6936cf3ff"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

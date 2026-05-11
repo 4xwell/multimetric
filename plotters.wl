@@ -34,11 +34,15 @@ coneColors = Directive[#, Opacity[0.4]] & /@ colors;
 imgSize = 715;
 
 plotCones2D[eqs_, zoom_, plotText_, labels_:{}, crossing_:False, EoMcheck_:True] := 
-	Module[{styles, legend, funcs, meshF, bgc},
-	styles = Take[contourColors, UpTo[Length[eqs]]];
+	Module[{(*styles, *)legend, funcs, meshF, bgc},
+	(*styles = Take[contourColors, UpTo[Length[eqs]]];*)
 	legend = If[labels === {}, 
 		None,
-		Placed[LineLegend[styles, labels], {Right, Top}]
+		Placed[LineLegend[
+			contourColors, 
+			labels, 
+			LegendMarkerSize -> {25, 5}
+		], {Right, Top}]
 	];
 	funcs = eqs[[All,1]];
 	meshF = If[TrueQ[crossing], (Function[{\[DoubleStruckCapitalT]x,\[DoubleStruckCapitalT]y},#]&) /@ funcs, {}];
@@ -54,7 +58,7 @@ plotCones2D[eqs_, zoom_, plotText_, labels_:{}, crossing_:False, EoMcheck_:True]
 		MaxRecursion -> 1,
 		PerformanceGoal -> "Speed",
 		Method -> {"SymbolicProcessing" -> 0},
-		ContourStyle -> styles,
+		ContourStyle -> contourColors,
 		Background -> bgc,
 		PlotLegends -> legend,
 		MeshFunctions -> meshF,
