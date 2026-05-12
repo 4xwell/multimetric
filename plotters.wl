@@ -6,19 +6,13 @@ ClearAll[
 	plotCones3D, imgSize
 ];
 
+(* ------ Styles and colors ------ *)
+
 colors = {
-	Blue,
-	Red,
-	Darker@Green,
-	Purple,
-	Orange,
-	Magenta,
-	StandardCyan,
-	Black,
-	StandardYellow,
-	Green,
-	Pink,
-	DarkMagenta
+	Blue, Red, Darker@Green,
+	Purple, Orange, Magenta,
+	StandardCyan, Black, StandardYellow,
+	Green, Pink, DarkMagenta
 };
 
 contourColors = Join[
@@ -33,49 +27,37 @@ coneColors = Directive[#, Opacity[0.4]] & /@ colors;
 
 imgSize = 715;
 
-plotCones2D[eqs_, zoom_, plotText_, labels_:{}, crossing_:False, EoMcheck_:True] := 
-	Module[{(*styles, *)legend, funcs, meshF, bgc},
-	(*styles = Take[contourColors, UpTo[Length[eqs]]];*)
-	legend = If[labels === {}, 
-		None,
-		Placed[LineLegend[
-			contourColors, 
-			labels, 
-			LegendMarkerSize -> {25, 5}
-		], {Right, Top}]
-	];
-	funcs = eqs[[All,1]];
-	meshF = If[TrueQ[crossing], (Function[{\[DoubleStruckCapitalT]x,\[DoubleStruckCapitalT]y},#]&) /@ funcs, {}];
-	bgc = If[EoMcheck, 
-		Directive[White, Opacity[0]], 
-		Directive[Red, Opacity[0.2]]
-	];
+(* ------ 2D contour plots ------ *)
 
+plotCones2D[eqs_, zoom_, plotText_, labels_:{}, (*crossing_:False,*) EoMcheck_:True] := 
+	Module[{(*funcs, meshF, *)bgc},
+	(*funcs = eqs[[All,1]];
+	meshF = If[TrueQ[crossing], (Function[{\[DoubleStruckCapitalT]x,\[DoubleStruckCapitalT]y},#]&)/@funcs, {}];*)
+	bgc = If[EoMcheck,
+		Directive[White, Opacity[0]], 
+		Directive[Red, Opacity[0.2]]];
+	
 	ContourPlot[
-		Evaluate@eqs,
+		Evaluate @ eqs,
 		{\[DoubleStruckCapitalT]x, -zoom, zoom}, {\[DoubleStruckCapitalT]y, -zoom, zoom}, 
-		PlotPoints -> ControlActive[15, 50],
-		MaxRecursion -> 1,
-		PerformanceGoal -> "Speed",
-		Method -> {"SymbolicProcessing" -> 0},
-		ContourStyle -> contourColors,
-		Background -> bgc,
-		PlotLegends -> legend,
-		MeshFunctions -> meshF,
+		ContourStyle -> contourColors, Background -> bgc,
+		PlotLegends -> Placed[LineLegend[
+			labels, LegendMarkerSize -> {25, 5}], {Right, Top}],
+		(*MeshFunctions -> meshF,
 		Mesh -> {{0}},
-		MeshStyle -> Directive[PointSize[Large], Magenta, Opacity[0.8]],
+		MeshStyle -> Directive[PointSize[Large], Magenta, Opacity[0.8]],*)
 		ImageSize -> imgSize,
-		ImageMargins -> 0,
-		ImagePadding -> None,
-		Frame -> False,
-		Axes -> True,
+		ImageMargins -> 0, ImagePadding -> None,
+		Frame -> False, Axes -> True,
+		PlotPoints -> ControlActive[15, 50],
+		MaxRecursion -> 1, PerformanceGoal -> "Speed",
+		Method -> {"SymbolicProcessing" -> 0},
 		Prolog -> Inset[plotText, {-zoom, zoom}, {Left, Top}]
 	]
 ];
 
-plotOverlap2D[selected_List, slotConds_List, zoom_, showArea_:False] := 
-Module[
-	{validSel, regionCond, area, plotExpr},
+plotOverlap2D[selected_, slotConds_, zoom_, showArea_:False] := 
+	Module[{validSel, regionCond, area, plotExpr},
 	
 	validSel = Select[
 		selected,
@@ -122,35 +104,27 @@ Module[
 	]
 ];
 
-plotCones3D[eqs_, zoom_:1, plotText_:"", labels_:{}] := Module[
-	{styles, legend},
-	styles = Take[coneColors, UpTo[Length[eqs]]];
-	legend = If[labels === {}, 
-		None, 
-		Placed[labels, {Right, Top}]
-	];
-	
-	ContourPlot3D[
-		Evaluate[eqs],
-		{\[DoubleStruckCapitalT]t, -zoom, zoom},{\[DoubleStruckCapitalT]x, -zoom, zoom},{\[DoubleStruckCapitalT]y, -zoom, zoom},
-		ContourStyle -> styles,
-		PlotLegends -> legend,
-		Boxed -> False,
-		Axes -> True,
-		AxesOrigin -> {0, 0, 0},
-		AxesLabel -> {"t", "x", "y"},
-		AxesStyle -> Italic,
-		Mesh -> None,
-		BoxRatios -> {1, 1, 1},
-		ViewPoint -> {0.5, 0, -1},
-		ViewProjection -> "Orthographic",
-		RegionBoundaryStyle -> None,
-		RegionFunction -> Function[{t,x,y}, x^2+y^2+t^2 <= 0.98 zoom],
-		MaxRecursion -> 1(*2*),
-		PerformanceGoal -> "Speed",
-		Method -> {"SymbolicProcessing" -> 0},
-		ImageSize -> imgSize,
-		PlotPoints -> ControlActive[10, 30],
-		PlotRange -> {{-zoom, zoom}, {-zoom, zoom}, {-zoom, zoom}}
-	]
+(* ------ 3D contour plots ------ *)
+
+plotCones3D[eqs_, zoom_:1, plotText_:"", labels_:{}] := ContourPlot3D[
+	Evaluate @ eqs,
+	{\[DoubleStruckCapitalT]t, -zoom, zoom},{\[DoubleStruckCapitalT]x, -zoom, zoom},{\[DoubleStruckCapitalT]y, -zoom, zoom},
+	ContourStyle -> coneColors,
+	PlotLegends -> Placed[SwatchLegend[
+		labels, LegendLayout -> "Row"], {Right, Top}],
+	Boxed -> False,
+	Axes -> True, AxesOrigin -> {0, 0, 0},
+	AxesLabel -> {"t", "x", "y"}, AxesStyle -> Italic,
+	Mesh -> None,
+	BoxRatios -> {1, 1, 1},
+	ViewVertical -> {1, 0, 0}, ViewPoint -> {0, 0, -1},
+	ViewProjection -> "Orthographic",
+	RegionBoundaryStyle -> None,
+	RegionFunction -> Function[{t,x,y}, x^2+y^2+t^2 <= 0.98 zoom],
+	MaxRecursion -> ControlActive[1, 2],
+	PerformanceGoal -> "Speed",
+	Method -> {"SymbolicProcessing" -> 0},
+	ImageSize -> imgSize,
+	PlotPoints -> ControlActive[10, 30],
+	PlotRange -> {{-zoom, zoom}, {-zoom, zoom}, {-zoom, zoom}}
 ];

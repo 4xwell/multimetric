@@ -29,7 +29,7 @@ $Assumptions = And @@ Join[
 		\[Omega]tx[J] \[Element] Reals, \[Omega]ty[J] \[Element] Reals, \[Omega]xy[J] \[Element] Reals,
 		exx[J] \[Element] Reals, exy[J] \[Element] Reals, eyy[J] \[Element] Reals,
 		\[Nu]x[J] \[Element] Reals, \[Nu]y[J] \[Element] Reals, \[CapitalNu][J] \[Element] Reals
-	},{J, 1, \[ScriptCapitalN]}],
+	}, {J, 1, \[ScriptCapitalN]}],
 	Table[\[Beta][J] > 0, {J, 1, \[ScriptCapitalN]}]
 ];
 

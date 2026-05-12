@@ -3,11 +3,13 @@
 ClearAll[
 	nForms, nFormRows, nFormCols,
 	defaultPairs, pairDefault, defaultShifts,
-	vielLabel, formRows, formGrid,
-	target, shiftOverlay, triadControls, 
+	vielLabel, formRows, formGrid, target,
+	shiftOverlay, shiftOverlays, triadControls, 
 	gaugeControls, overlapControl,
 	zoomControl, tSliceControl
 ];
+
+(* ------ Bilinear form selector ------ *)
 
 nForms = 9; nFormRows = 3; nFormCols = Ceiling[nForms/nFormRows];
 
@@ -22,50 +24,46 @@ defaultPairs := Association @ Append[
 	Table[{i -> {"e" <> ToString @ i, "e" <> ToString @ i}}, {i, \[ScriptCapitalN]}],
 	{\[ScriptCapitalN]+1 -> {"u", "u"}}
 ];
-pairDefault[i_] := Lookup[defaultPairs, i, {"None", "None"}];
 
-defaultShifts := Table[{Cos[(i-1) 2\[Pi]/\[ScriptCapitalN]], Sin[(i-1) 2\[Pi]/\[ScriptCapitalN]]}, {i, \[ScriptCapitalN]}];
+pairDefault[i_] := Lookup[defaultPairs, i, {"None", "None"}];
 
 formRows[i_] := Module[{defaults},
 	defaults = pairDefault[i];
 	If[!MatchQ[pair[i], {_String, _String}], pair[i] = defaults];
 	Row[{
 		Style[ToString @ i <> " ", Bold, 8],
+		PopupMenu[
+			Dynamic[pair[i][[1]],
+				(pair[i] = ReplacePart[pair[i], 1 -> #]) & ],
+			Normal @ vielLabel,
+			Alignment -> {Center, Bottom},
+			Appearance -> "Button",
+			ContentPadding -> False,
+			ImageSize -> {20, 18}],
+			
+		Style["\[Transpose] \[Eta] ", "SR", 8],
 		
 		PopupMenu[
-			Dynamic[
-				pair[i][[1]],
-				(pair[i] = ReplacePart[pair[i], 1 -> #]) &
-			],
+			Dynamic[pair[i][[2]],
+				(pair[i] = ReplacePart[pair[i], 2 -> #]) & ],
 			Normal @ vielLabel,
 			Alignment -> {Center, Bottom},
 			Appearance -> "Button",
 			ContentPadding -> False,
-			ImageSize -> {20, 18}
-		],
-
-		Style["\[Transpose] \[Eta] ", "SR", 8],
-
-		PopupMenu[
-			Dynamic[
-				pair[i][[2]],
-				(pair[i] = ReplacePart[pair[i], 2 -> #]) &
-			],
-			Normal @ vielLabel,
-			Alignment -> {Center, Bottom},
-			Appearance -> "Button",
-			ContentPadding -> False,
-			ImageSize -> {20, 18}
-		]
+			ImageSize -> {20, 18}]
 	}]
 ];
 
 formGrid[] := Grid[
-	Partition[ (*Bilinear form selection grid*)
+	Partition[
 		Table[formRows[i], {i, nForms}],
 		nFormCols
 	], Alignment -> Left, Spacings -> {0.5, 1}
 ];
+
+(* ------ Shift controls ------ *)
+
+defaultShifts := Table[{Cos[(i-1) 2\[Pi]/\[ScriptCapitalN]], Sin[(i-1) 2\[Pi]/\[ScriptCapitalN]]}, {i, \[ScriptCapitalN]}];
 
 target[i_] := Graphics[{
 	Directive[colors[[i]], Opacity[0.6]], 
@@ -78,9 +76,34 @@ shiftOverlay[i_] := Locator[
 	Dynamic[
 		{\[Nu]x[i], \[Nu]y[i]},
 		({\[Nu]x[i], \[Nu]y[i]} = #) &
-	],
-	target[i]
+	], target[i]
 ];
+
+shiftOverlays[] := Graphics @ Table[shiftOverlay[i], {i, \[ScriptCapitalN]}]
+
+(*shiftOverlay[] := Graphics @ Table[
+	With[{j = i},
+		Locator[
+			Dynamic[
+				{\[Nu]x[j], \[Nu]y[j]},
+				({\[Nu]x[j], \[Nu]y[j]} = #) &
+			], target[j]]
+	], {i,\[ScriptCapitalN]}
+];*)
+
+(* ------ Overlap controls ------ *)
+
+overlapControl[] := Labeled[Control[{
+	{modes, {}, ""},
+	Thread[Range[nForms] -> Range[nForms]],
+	ControlType -> TogglerBar,
+	Appearance -> "Horizontal",
+	Enabled -> Dynamic[plotDim==="2D"],
+	Background -> colors
+	}], "Overlap", Top, {}
+];
+
+(* ------ Gauge slider controls ------ *)
 
 gaugeControls[sym_, i_, lo_, hi_] := Labeled[
 	HorizontalGauge[
@@ -96,18 +119,8 @@ gaugeControls[sym_, i_, lo_, hi_] := Labeled[
 	Subscript[ToString @ sym, i], Left
 ];
 
-overlapControl[] := Labeled[Control[{ (*Overlap toggler bar*)
-	{modes, {}, ""},
-	Thread[Range[nForms] -> Range[nForms]],
-	ControlType -> TogglerBar,
-	Appearance -> "Horizontal",
-	Enabled -> Dynamic[plotDim==="2D"],
-	Background -> colors
-	}], "Overlap", Top, {}
-];
-
 zoomControl[] := Labeled[HorizontalGauge[ (*Zoom slider*)
-	Dynamic @ zoom,{0.5, 3},
+	Dynamic @ zoom, {0.5, 3},
 	PlotTheme -> "Monochrome",
 	GaugeMarkers -> Placed["BarMarker", "Center"],
 	Frame -> False, ScalePadding -> 0,
@@ -115,12 +128,14 @@ zoomControl[] := Labeled[HorizontalGauge[ (*Zoom slider*)
 ], "Zoom", Left];
 
 tSliceControl[] := Labeled[HorizontalGauge[ (*t-slice slider*)
-	Dynamic @ tSlice,{-3, 3},
+	Dynamic @ tSlice, {-3, 3},
 	PlotTheme -> "Monochrome",
 	GaugeMarkers -> Placed["BarMarker", "Center"],
 	Frame -> False, ScalePadding -> 0,
 	ImageSize -> 160, ImageMargins -> 0
 ], "t-slice", Left];
+
+(* ------ Spatial vielbein controls ------ *)
 
 triadControls[i_] := Labeled[
 	(* NOTE: reversed min/max for more intuitive controls *)
